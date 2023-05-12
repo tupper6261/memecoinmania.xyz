@@ -1,0 +1,1861 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8" />
+	
+	<title>Memecoin Mania</title>
+	<link href='https://fonts.googleapis.com/css?family=Electrolize' rel='stylesheet' type='text/css'>
+	<style>
+		@charset "UTF-8";
+		
+		html {
+			height: 100%;
+		}
+
+		body{
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			background: #000000;
+			font-family: 'Electrolize', 'Segoe UI', Helvetica, Arial, 'Trebuchet MS', sans-serif;
+			font-size: 14px;
+			text-align: justify;
+		}
+
+		#game_content{
+			overflow: hidden;
+			width: 750px;
+			height: 521px;
+			margin: auto;
+			background-color: rgba(51, 51, 85, 0.4);
+			border: 3px solid rgba(255, 217, 0, 1);
+			border-top: 15px solid rgba(255, 215, 0, 1);
+			border-radius: 5px;
+		}
+
+		#grid{
+			position: relative;
+			width: 525px;
+			height: 525px;
+			background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MjAgNTIwIiB3aWR0aD0iNTIwIiBoZWlnaHQ9IjUyMCI+DQogIDxkZWZzPg0KICAgIDxwYXR0ZXJuIGlkPSJncmlkIiB3aWR0aD0iNjUiIGhlaWdodD0iNjUiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiPg0KICAgICAgPHBhdGggZD0iTSA2NSAwIEwgMCAwIDAgNjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRDcwMCIgc3Ryb2tlLXdpZHRoPSI1Ii8+DQogICAgICA8cGF0aCBkPSJNIDAgMCBMIDAgNjUiIGZpbGw9Im5vbmUiIHN0cm9rZT0iI0ZGRDcwMCIgc3Ryb2tlLXdpZHRoPSI1Ii8+DQogICAgPC9wYXR0ZXJuPg0KICA8L2RlZnM+DQogIDxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz4NCiAgPGxpbmUgeDE9IjAiIHkxPSIwIiB4Mj0iMCIgeTI9IjUyMCIgc3Ryb2tlPSIjRkZENzAwIiBzdHJva2Utd2lkdGg9IjUiLz4NCiAgPGxpbmUgeDE9IjAiIHkxPSI1MjAiIHgyPSI1MjAiIHkyPSI1MjAiIHN0cm9rZT0iI0ZGRDcwMCIgc3Ryb2tlLXdpZHRoPSI1Ii8+DQogIDxsaW5lIHgxPSI1MjAiIHkxPSIwIiB4Mj0iNTIwIiB5Mj0iNTIwIiBzdHJva2U9IiNGRkQ3MDAiIHN0cm9rZS13aWR0aD0iNSIvPg0KPC9zdmc+DQo=) rgba(32, 32, 32, 0.4);
+			background-repeat: no-repeat;
+		}
+
+		#player_info{
+			position: relative;
+			float: right;
+			top: 60px;
+			width: 230px;
+			text-align: center;
+		}
+
+		#player_info p, #game_level{
+			font-size: 18px;
+			margin-left: 30px;
+			color: #FFF;
+		}
+
+		#total_score, #level{
+			padding: 70px 0 20px 0;
+			margin-left: 30px;
+			margin-top: -70px;
+			font-size: 20px;
+			height: 130px;
+			font-weight: bold;
+			color: #FFF;
+			background-image:url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA1MCA1MCI+DQogICAgPGRlZnM+DQogICAgICAgIDxyYWRpYWxHcmFkaWVudCBpZD0iZ3JhZGllbnQiIGN4PSI1MCUiIGN5PSI1MCUiIHI9IjUwJSIgZng9IjUwJSIgZnk9IjUwJSI+DQogICAgICAgICAgICA8c3RvcCBvZmZzZXQ9IjAlIiBzdHlsZT0ic3RvcC1jb2xvcjojRkZENzAwO3N0b3Atb3BhY2l0eToxIiAvPg0KICAgICAgICAgICAgPHN0b3Agb2Zmc2V0PSIxMDAlIiBzdHlsZT0ic3RvcC1jb2xvcjojRkZDQzAwO3N0b3Atb3BhY2l0eToxIiAvPg0KICAgICAgICA8L3JhZGlhbEdyYWRpZW50Pg0KICAgIDwvZGVmcz4NCiAgICA8Y2lyY2xlIGN4PSIyNSIgY3k9IjI1IiByPSIyMCIgZmlsbD0idXJsKCNncmFkaWVudCkiIHN0cm9rZT0iI0I4ODYwQiIgc3Ryb2tlLXdpZHRoPSIyIiAvPg0KPC9zdmc+);
+			background-repeat: no-repeat;
+			background-position: top center;
+			background-size: 128px 128px;
+		}
+
+		#total_score{
+			padding-top: 52px;
+		}
+
+		#goal_score{
+			font-size: 14px;
+		}
+
+		#level{
+			margin-bottom: -60px;
+		}
+
+		#level_text{
+			margin-top: 80px;
+		}
+
+		#time_gauge{
+			position: absolute;
+			border-radius: 20px;
+			left: 30px;
+			top: -10px;
+			width: 15px;
+			height: 400px;
+			background-color: #B8860B;
+		}
+
+		#current_gauge{
+			position: absolute;
+			border-radius: 20px;
+			bottom: 0px;
+			left: 2px;
+			width: 11px;
+			height: 100%;
+			background-color: rgba(255, 215, 0, 1);
+		}
+
+		.score_gain{
+			position: absolute;
+			left: 112px;
+			font-size: 15px;
+			font-weight: bold;
+			color: #4d4d4d;
+		}
+
+		.gem, .bomb{
+			position: absolute;
+			width: 60px;
+			height: 60px;
+			background-position: center center;
+			background-repeat: no-repeat;
+			background-size: 60px 60px;
+		}
+
+		#content button{
+			cursor:pointer;
+			height: 30px;
+			margin: 0px -5px 15px 0px;
+			padding: 0 9px 0 9px;
+		}
+
+		#content button:hover{
+			border-color: #999;
+			-o-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+			-moz-box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);
+			-webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+			box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15);
+		}
+
+		#content button:active{
+			border-color: #444;
+		}
+
+		#player_info button{
+			cursor: pointer;
+			margin-left: 10px;
+			border-radius: 2px;
+			-moz-border-radius: 2px;
+			-webkit-border-radius: 2px;
+			border: 3px solid rgba(255, 215, 0, 1);
+			background-color: #B8860B;
+			font-size: 10pt;
+			font-family: 'Electrolize', 'Segoe UI', Helvetica, Arial, 'Trebuchet MS', sans-serif;
+			color: #FFF;
+		}
+
+		html {
+			position: relative;
+			height: 100%;
+		}
+
+		body{
+			position: relative;
+			margin: 0;
+			padding: 0;
+			height: 100%;
+			background: #000000;
+			font-family: 'Electrolize', 'Segoe UI', Helvetica, Arial, 'Trebuchet MS', sans-serif;
+			font-size: 14px;
+			text-align: justify;
+		}
+
+		#content{
+			position: relative;
+			width: 1000px;
+			min-height: 700px;
+			margin: auto;
+			background-color: #000000;
+			background-repeat: no-repeat;
+			color: #FFFFFF;
+		}
+
+		#site_content, #rules_content{
+			padding: 50px;
+			font-size: 16px;
+			color: #DEDEDE;
+		}
+		a {
+			text-decoration: none;
+			color: #000000;
+		}
+
+		header{
+			padding-bottom: 30px;
+			position: relative;
+			z-index: 30;
+			background-color: #000000;
+		}
+
+		nav{
+			background-color: #111122;
+			border-width: 0px 2px 2px 2px;
+			border-color: #CCCCCC;
+			border-style: solid;
+			border-radius: 20px;
+		}
+
+		nav a{
+			display: inline-block;
+			padding: 10px 20px 15px 20px;
+			color: #FFFFFF;
+			font-weight: bold;
+		}
+
+		nav a.current_menu{
+			background-color: rgba(200, 200, 200, 0.4);
+		}
+
+		nav a:first-child{
+			border-top-left-radius: 20px;
+			-webkit-border-top-left-radius: 20px;
+			-moz-border-radius-topleft: 20px;
+			border-bottom-left-radius: 20px;
+			-webkit-border-bottom-left-radius: 20px;
+			-moz-border-radius-bottomleft: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div id="content">
+		<div id="game_content">
+			<div id="player_info">
+				<div id="time_gauge"><div id="current_gauge"></div></div>
+				<p id="level_text">Level</p><div id="level">1</div>
+				<p>Score</p><div id="total_score"><span id="current_score">0</span><br/>/<span id="goal_score">5000</span></div>
+				<button id="restart_bt">Restart</button>
+				<button id="pause_bt">Pause</button>
+			</div>
+			<div id="grid"></div>
+		</div>
+	</div>
+
+	<!--util.js-->
+	<script>
+		/**
+		 * Returns a DOM object or an array of DOM objects, depending on the argument (id, class, or tag name)
+		 */
+		function get(id) {
+			var elem = document.querySelectorAll(id);
+			if (elem.length < 2)
+				return elem[0] || document.querySelector(id);
+			return elem;
+		}
+
+		/**
+		 * Removes an element from the page
+		 */
+		function remove (elem) {
+			if (elem.parentNode) {
+				elem.parentNode.removeChild(elem);
+			}
+		}
+
+		/**
+		 * Returns the length of an object (associative array)
+		 */
+		Object.getLength = function(obj) {
+			var length = 0;
+			for (var key in obj) {
+				if (obj.hasOwnProperty(key)) {
+					length++;
+				}
+			}
+			return length;
+		};
+
+		/**
+		 * Checks if two arrays (one dimension) are equals
+		 */
+		Array.equals = function(arr1, arr2) {
+			if (!arr1 || !arr2 || arr1.length != arr2.length) {
+				return false;
+			}
+			for (var i = 0; i < arr1.length; i++) {
+				if (arr1[i] !== arr2[i]) {
+					return false;
+				}
+			};
+			return true;
+		};
+	</script>
+
+	<!--item.js-->	
+	<script>
+		/**
+		 * Adds some methods to a given item to make it a displayable and movable item on the game grid
+		 */
+		function addItemCapabilities(item) {
+			/**
+			 * Returns (and sets, if a value is passed as an argument) the gem's "left" CSS property in px
+			 */
+			item.left = function(value) {
+				if (value != undefined) {
+					if (typeof(value) == 'number' && parseInt(value) == value)	// If value is an integer
+						item.style.left = value + 'px';
+					else if (typeof(value) == 'string')	// If value is a string
+						item.style.left = value;
+					return value;
+				}
+				return item.style.left;
+			};
+
+			/**
+			 * Returns (and sets, if a value is passed as an argument) the item's "top" CSS property in px
+			 */
+			item.top = function(value) {
+				if (value != undefined) {
+					if (typeof(value) == 'number' && parseInt(value) == value)	// If value is an integer
+						item.style.top = value + 'px';
+					else if (typeof(value) == 'string')	// If value is a string
+						item.style.top = value;
+					return value;
+				}
+				return item.style.top;
+			};
+
+			/**
+			 * Returns (and sets, if a value is passed as an argument) the item's x position on the map
+			 */
+			item.x = function(value) {
+				if (value != undefined)	{
+					item.id = (item.id != '') ? (item.id.substr(0, item.id.length - 1) + value) : 'tile0_' + value;
+					// item.innerHTML = item.y()+'_'+item.x();
+				}
+				if (item.id != '')
+					return parseInt(item.id.substr(item.id.length - 1));
+				return null;
+			};
+
+			/**
+			 * Returns (and sets, if a value is passed as an argument) the item's y position on the map
+			 */
+			item.y = function(value) {
+				if (value != undefined) {
+					item.id = (item.id != '') ? (item.id.substring(0, 4) + value + item.id.substr(item.id.indexOf('_'))) : 'tile' + value + '_0';
+					// item.innerHTML = item.y()+'_'+item.x();
+				}
+				if (item.id != '')
+					return parseInt(item.id.substring(4, item.id.indexOf('_')));
+				return null;
+			};
+
+			/**
+			 * Animates an element's CSS property from start value to end value (only values in pixels)
+			 */
+			item.animate = function(property, start, end, speed, callback) {
+				if (start == end)
+					return;
+				
+				this.style[property] = start;
+				start = parseInt(start.substr(0, start.length - 2));
+				end = parseInt(end.substr(0, end.length - 2));
+
+				var doAnimation = function(start) {
+					for (var i = 0; i < speed; i++) {
+						// If the property has reached the end value
+						if ((direction == 1 && start >= end) || (direction == -1 && start <= end)) {
+							clearInterval(item.timer);	// We stop the animation timer
+							delete item.timer;
+
+							if (callback != undefined && callback != null && !item.falling) {
+								callback(item);
+							}
+							if (item.falling) {
+								item.onFallComplete();
+							}
+							return;
+						}
+						start += direction;
+						item.style[property] = start + 'px';
+					};
+					return start;
+				};
+
+				var delta = end - start,
+					direction = (delta > 0) ? 1 : -1;
+
+				// We start the item's timer
+				item.timer = setInterval(function() {
+					start = doAnimation(start);
+				}, 30);
+			};
+
+			/**
+			 * Makes the item fall vertically
+			 */
+			item.fallStreak = function () {
+				var x = item.x(),
+					y = item.y(),
+					currentGem = null;
+
+				// We make all the items on the column fall by 1 slot
+				item.fall();
+				for (var i = y; i >= -(Game.GRID_SIZE - 1); i--) {
+					currentGem = get('#tile' + i + '_' + x);
+					if (currentGem != null) {
+						currentGem.fall();
+					}
+				};
+			};
+
+			/**
+			 * Makes the item fall by one slot
+			 */
+			item.fall = function () {
+				var top = item.top(),
+					height = parseInt(top.substring(0, top.length - 2));
+				
+				height += Game.TILE_SIZE;
+				item.falling = true;
+				item.y(parseInt(item.y() + 1));	// We set the new Y position after the fall
+				item.animate('top', top, height + 'px', Game.GRID_SIZE);
+			};
+
+			/**
+			 * Trggiers everytime the item's fall is finished
+			 */
+			item.onFallComplete = function() {
+				item.falling = false;
+				if (get('#tile' + (item.y() + 1) + '_' + item.x()) == null && (item.y() + 1) != Game.GRID_SIZE) {	// If there is still an empty slot below the item
+					item.fall();		// We make it fall again
+				}else if(item.className == 'gem item') {				// Otherwise, the fall is over
+					Game.checkStreak(item);	// We look for a streak
+				}
+			};
+		};
+	</script>
+
+	<!--init.js-->
+	<script>
+		// Game initialisation
+
+		var Game = {};	// The game instance
+		Game.GRID_SIZE = 8;
+		Game.TILE_SIZE = 65;
+
+
+		//The images to be used as gems
+		var imageArray = [
+			'url("images/DOGE.png")',
+			'url("images/PEPE.png")',
+			'url("images/TURBO.png")',
+			'url("images/SPONGE.png")',
+			'url("images/BILLY.png")',
+			'url("images/BEN.png")',
+			'url("images/WOJACK.png")',
+			'url("images/FOUR.png")',
+			'url("images/MONG.png")',
+			'url("images/PPIZZA.png")'
+			];
+
+		// Shuffle the array using the Fisher-Yates algorithm
+		for (var i = imageArray.length - 1; i > 0; i--) {
+			var j = Math.floor(Math.random() * (i + 1));
+			var temp = imageArray[i];
+			imageArray[i] = imageArray[j];
+			imageArray[j] = temp;
+		}
+
+		/**
+		 * Initializes the game
+		 */
+		Game.init = function () {
+			Game.gemRange = 7;		// The number of different gems on the grid
+			Game.level = 1;
+			Game.time = 0;
+			Game.gem = null;		// The currently selected gem
+			Game.moving = false;	// Are the gems moving or not ?
+			Game.score = {
+				goal: 5000,
+				current: 0
+			};
+			Game.bonus = {};
+			Game.pauses = false;
+			Game.initTimer();
+
+			// We initialize the UI
+			get('#level').innerHTML = Game.level;
+			get('#current_score').innerHTML = Game.score.current;
+			get('#goal_score').innerHTML = Game.score.goal;
+			get('#restart_bt').onclick = Game.confirmRestart;
+			get('#pause_bt').onclick = Game.pause;
+
+			Game.createGrid();
+		};
+
+		/**
+		 * Created the game's grid
+		 */
+		Game.createGrid = function() {
+			var grid = get('#grid'), map = [], row, vGems = [], hGems = [], bg;
+
+			for (var i = 0, j = 0; i < Game.GRID_SIZE; i++) {
+				row = [];
+				map.push(row);	// We create a row in the map
+
+				for (j = 0; j < Game.GRID_SIZE; j++) {
+					do {
+						gem = new Game.Gem(j, i, parseInt(Math.random() * Game.gemRange));
+						if (i > 0)
+							vGems = gem.parseNeighbours(true, -1);
+						if (j > 0)
+							hGems = gem.parseNeighbours(false, -1);
+					}while (vGems.length >= 2 || hGems.length >= 2);
+
+					gem.addEventListener('click', Game.onGemClick, false);	// We add the mouse event listener
+					gem.pop(grid);
+					vGems = [];
+					hGems = [];
+				};
+			};
+
+			// We check if there is at least one possible move
+			Game.checkGameOver();
+
+			// If the player leaves the page, we stop the timer to display the hint after 15 seconds
+			window.onblur = function(){
+				Game.pauseHint();
+			}
+
+			// When he returns on the page, we resume the hint timer
+			window.onfocus = function(){
+				Game.resumeHint();
+			}
+		};
+
+		/**
+		 * Removes all the items from the grid
+		 */
+		Game.emptyGrid = function() {
+			var items = get('.item'), grid = get('#grid');
+			for (var i = 0; i < items.length; i++) {
+				grid.removeChild(items[i]);
+			};
+		}
+	</script>
+
+	<!--timer.js-->
+	<script>
+		/**
+		 * Initializes the level timer
+		 */
+		Game.initTimer = function() {
+			var minutes = 3;	// The timer is initialized at 3 minutes
+			Game.timer = minutes * 60 * 1000;
+			get('#current_gauge').style.height = '100%';
+			
+			/**
+			 * Updates the level timer
+			 */
+			Game.updateTimer = function() {
+				Game.timer -= 50;
+
+				// Every second
+				if (Game.timer % 1000 == 0) {
+					get("#current_gauge").style.height = (Game.timer * 100 / (minutes * 60 * 1000)) + '%';
+				}
+
+				if (Game.timer <= 0) {
+					Game.timesUp();
+				}
+			};
+		};
+		Game.resetTimer = Game.initTimer;
+
+
+		/**
+		 * The player loses if the timer is finished
+		 */
+		Game.timesUp = function() {
+			Popup.confirm('Time is up!<br/>Would you like to try again?', null, Game.restart);
+		}
+	</script>
+
+	<!--level.js-->
+	<script>
+		// Level related functions
+
+		/**
+		 * Displays a coinfirm popup to restart the game
+		 */
+		Game.confirmRestart = function() {
+			Popup.confirm('Do you want to restart ?', null, Game.restart);
+			Game.removeHint();
+		};
+
+		/**
+		 * Restarts the game
+		 */
+		Game.restart = function() {
+			Game.removeHint();
+			Game.emptyGrid();
+			Game.resetTimer();
+			Game.init();
+		};
+
+		/**
+		 * Notices the player of the end of the level
+		 */
+		Game.endLevel = function() {
+			Popup.alert('Level ' + Game.level + ' Ended !', Game.nextLevel);
+			Game.removeHint();
+		}
+
+		/**
+		 * Goes to the next level
+		 */
+		Game.nextLevel = function() {
+			Game.level++;
+			if (Game.bonus.bomb != undefined) {
+				delete Game.bonus.bomb;
+			}
+
+			if (Game.level == 5) {
+				Game.gemRange++;
+			}
+
+			get('#current_gauge').style.height = '100%';
+			get('#level').innerHTML = Game.level;
+			Game.resetScore();
+			Game.resetTimer();
+			Game.emptyGrid();
+			Game.createGrid();
+		};
+
+		/**
+		 * Checks if the game is over (no possibility to make a streak)
+		 */
+		Game.checkGameOver = function() {
+			if (!Game.checkHint()) {
+				Game.gameOver();
+			}
+		};
+
+		/**
+		 * When the game is over : displays a popup to make the player restart
+		 */
+		Game.gameOver = function() {
+			Popup.confirm('There are no more possible moves.<br/>Do you want to start over ?', null, Game.restart);
+			Game.paused = true;
+		};
+	</script>
+
+	<!--hint.js-->
+	<script>
+		// Hint related functions (Possible streaks parsing, etc.)
+
+		/**
+		 * Checks if the player still has a possibility to make a streak
+		 * @return {Array} An array containing the gems to swap if it is possible, null otherwise
+		 */
+		Game.checkHint = function() {
+			var gems = get('.gem'),
+				hint = null,
+				oneHint = false;	// Is there at least one hint found
+			
+			if (Game.hint != undefined) {
+				clearTimeout(Game.hint.timer);
+				delete Game.hint;
+			}
+
+			for (var i = gems.length - 1; i >= 0; i--) {
+				// If there is at least one gem can be moved to make a streak
+				if ((hint = gems[i].getPossibleMove()) != null) {
+					oneHint = true;
+					if (hint.length == 0) {
+						continue;
+					}
+					break;
+				}
+			};
+			
+			// We set the hint
+			if (hint != null && hint.length > 0) {
+				Game.hint = {
+					gems: hint,		// We keep the hint for the player
+					timer: setTimeout(Game.showHint, 15000),	// We will show it in 15 seconds if the player is stuck
+					start: new Date()
+				};
+			}
+			return oneHint;
+		};
+
+		/**
+		 * Displays an animation to give the player a hint on which gem to move if he is stuck
+		 */
+		Game.showHint = function() {
+			if (Game.hint == undefined || Game.hint.gems == undefined)
+				return;
+			if (Game.hint.timer) {
+				Game.removeHint();	// We remove the previous hint
+			}
+			var arrow = document.createElement('span'),
+				gems = Game.hint.gems,
+				left, top, width, height,
+				timer1, timer2;
+
+			// We make sure to put the first gem from the top, or the left as the first element of the array
+			if (gems[0].x() == gems[1].x() && gems[0].y() > gems[1].y() || gems[0].x() > gems[1].x()) {
+				gems.reverse();
+			}
+			
+			left = parseInt(gems[0].left().substr(0, gems[0].left().length - 2)) - 2.5;
+			top = parseInt(gems[0].top().substr(0, gems[0].top().length - 2)) - 2.5;
+
+			// We place the arrow at the middle of the gems to swap
+			if (gems[0].x() == gems[1].x()) {	// If the gems are in the same column.
+				width = 19;
+				height = 65;
+				arrow.style.backgroundImage = 'url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gVXBsb2FkZWQgdG86IFNWRyBSZXBvLCB3d3cuc3ZncmVwby5jb20sIFRyYW5zZm9ybWVkIGJ5OiBTVkcgUmVwbyBNaXhlciBUb29scyAtLT4KCjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIgogICB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIKICAgd2lkdGg9IjI5OC42NjU0MSIKICAgaGVpZ2h0PSI2OTguNjY1MjgiCiAgIHZpZXdCb3g9IjAgMCA4Ljk1OTk2MTkgMjAuOTU5OTU5IgogICB2ZXJzaW9uPSIxLjEiCiAgIGlkPSJzdmczODg3IgogICBzb2RpcG9kaTpkb2NuYW1lPSJ2YXJyb3cuc3ZnIgogICBzdHlsZT0iZmlsbDpub25lIgogICBpbmtzY2FwZTp2ZXJzaW9uPSIwLjkyLjMgKDI0MDU1NDYsIDIwMTgtMDMtMTEpIj4KICA8bWV0YWRhdGEKICAgICBpZD0ibWV0YWRhdGEzODkzIj4KICAgIDxyZGY6UkRGPgogICAgICA8Y2M6V29yawogICAgICAgICByZGY6YWJvdXQ9IiI+CiAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+CiAgICAgICAgPGRjOnR5cGUKICAgICAgICAgICByZGY6cmVzb3VyY2U9Imh0dHA6Ly9wdXJsLm9yZy9kYy9kY21pdHlwZS9TdGlsbEltYWdlIiAvPgogICAgICA8L2NjOldvcms+CiAgICA8L3JkZjpSREY+CiAgPC9tZXRhZGF0YT4KICA8ZGVmcwogICAgIGlkPSJkZWZzMzg5MSIgLz4KICA8c29kaXBvZGk6bmFtZWR2aWV3CiAgICAgcGFnZWNvbG9yPSIjZmZmZmZmIgogICAgIGJvcmRlcmNvbG9yPSIjNjY2NjY2IgogICAgIGJvcmRlcm9wYWNpdHk9IjEiCiAgICAgb2JqZWN0dG9sZXJhbmNlPSIxMCIKICAgICBncmlkdG9sZXJhbmNlPSIxMCIKICAgICBndWlkZXRvbGVyYW5jZT0iMTAiCiAgICAgaW5rc2NhcGU6cGFnZW9wYWNpdHk9IjAiCiAgICAgaW5rc2NhcGU6cGFnZXNoYWRvdz0iMiIKICAgICBpbmtzY2FwZTp3aW5kb3ctd2lkdGg9IjE5MjAiCiAgICAgaW5rc2NhcGU6d2luZG93LWhlaWdodD0iOTkxIgogICAgIGlkPSJuYW1lZHZpZXczODg5IgogICAgIHNob3dncmlkPSJmYWxzZSIKICAgICBpbmtzY2FwZTp6b29tPSIwLjI5NSIKICAgICBpbmtzY2FwZTpjeD0iMTQ5LjMzMjciCiAgICAgaW5rc2NhcGU6Y3k9IjM0OS4zMzI2NCIKICAgICBpbmtzY2FwZTp3aW5kb3cteD0iLTkiCiAgICAgaW5rc2NhcGU6d2luZG93LXk9IjQ0OSIKICAgICBpbmtzY2FwZTp3aW5kb3ctbWF4aW1pemVkPSIxIgogICAgIGlua3NjYXBlOmN1cnJlbnQtbGF5ZXI9InN2ZzM4ODciIC8+CiAgPGcKICAgICBpZD0iU1ZHUmVwb19iZ0NhcnJpZXIiCiAgICAgc3R5bGU9InN0cm9rZS13aWR0aDowIgogICAgIHRyYW5zZm9ybT0idHJhbnNsYXRlKC03LjUyMDAxODksLTEuNTIwMDIwOSkiIC8+CiAgPGcKICAgICBpZD0iU1ZHUmVwb190cmFjZXJDYXJyaWVyIgogICAgIHN0eWxlPSJzdHJva2U6I2ZmZmZmZjtzdHJva2Utd2lkdGg6MC45NTk5OTk5ODtzdHJva2UtbGluZWNhcDpyb3VuZDtzdHJva2UtbGluZWpvaW46cm91bmQiCiAgICAgdHJhbnNmb3JtPSJyb3RhdGUoOTAsOS4wMDAwMDEyLDcuNDc5OTgwMSkiPgogICAgPHBhdGgKICAgICAgIGQ9Ik0gNi4xNDIxNCw4LjAwMDAxIDIsMTIgNi4xNDIxNCwxNiA3LjUyMjg1LDE0LjY2NjcgNS43Mzc3MywxMi45NDI4IEggMTguMjYyMyBMIDE2LjQ3NzIsMTQuNjY2NyAxNy44NTc5LDE2IDIyLDEyIDE3Ljg1NzksOCAxNi40NzcyLDkuMzMzMzMgMTguMjYyMywxMS4wNTcyIEggNS43Mzc3NSBsIDEuNzg1MSwtMS43MjM4NSB6IgogICAgICAgaWQ9InBhdGgzODgxIgogICAgICAgaW5rc2NhcGU6Y29ubmVjdG9yLWN1cnZhdHVyZT0iMCIKICAgICAgIHN0eWxlPSJmaWxsOiMxZDliZjAiIC8+CiAgPC9nPgogIDxnCiAgICAgaWQ9IlNWR1JlcG9faWNvbkNhcnJpZXIiCiAgICAgdHJhbnNmb3JtPSJyb3RhdGUoOTAsOS4wMDAwMDEyLDcuNDc5OTgwMSkiPgogICAgPHBhdGgKICAgICAgIGQ9Ik0gNi4xNDIxNCw4LjAwMDAxIDIsMTIgNi4xNDIxNCwxNiA3LjUyMjg1LDE0LjY2NjcgNS43Mzc3MywxMi45NDI4IEggMTguMjYyMyBMIDE2LjQ3NzIsMTQuNjY2NyAxNy44NTc5LDE2IDIyLDEyIDE3Ljg1NzksOCAxNi40NzcyLDkuMzMzMzMgMTguMjYyMywxMS4wNTcyIEggNS43Mzc3NSBsIDEuNzg1MSwtMS43MjM4NSB6IgogICAgICAgaWQ9InBhdGgzODg0IgogICAgICAgaW5rc2NhcGU6Y29ubmVjdG9yLWN1cnZhdHVyZT0iMCIKICAgICAgIHN0eWxlPSJmaWxsOiMxZDliZjAiIC8+CiAgPC9nPgo8L3N2Zz4K)';		
+				arrow.style.left = (left + Game.TILE_SIZE / 2 - (width / 2)) + 'px';
+				arrow.style.top = (top + Game.TILE_SIZE / 2 - (height - Game.TILE_SIZE) / 2) + 'px';
+			}else {
+				width = 65;
+				height = 19;
+				arrow.style.backgroundImage = 'url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gVXBsb2FkZWQgdG86IFNWRyBSZXBvLCB3d3cuc3ZncmVwby5jb20sIFRyYW5zZm9ybWVkIGJ5OiBTVkcgUmVwbyBNaXhlciBUb29scyAtLT4KCjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIgogICB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIKICAgd2lkdGg9IjY5OC42NjUyOCIKICAgaGVpZ2h0PSIyOTguNjY1NDEiCiAgIHZpZXdCb3g9IjAgMCAyMC45NTk5NTggOC45NTk5NjIyIgogICB2ZXJzaW9uPSIxLjEiCiAgIGlkPSJzdmczODU3IgogICBzb2RpcG9kaTpkb2NuYW1lPSJoYXJyb3cuc3ZnIgogICBzdHlsZT0iZmlsbDpub25lIgogICBpbmtzY2FwZTp2ZXJzaW9uPSIwLjkyLjMgKDI0MDU1NDYsIDIwMTgtMDMtMTEpIj4KICA8bWV0YWRhdGEKICAgICBpZD0ibWV0YWRhdGEzODYzIj4KICAgIDxyZGY6UkRGPgogICAgICA8Y2M6V29yawogICAgICAgICByZGY6YWJvdXQ9IiI+CiAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+CiAgICAgICAgPGRjOnR5cGUKICAgICAgICAgICByZGY6cmVzb3VyY2U9Imh0dHA6Ly9wdXJsLm9yZy9kYy9kY21pdHlwZS9TdGlsbEltYWdlIiAvPgogICAgICA8L2NjOldvcms+CiAgICA8L3JkZjpSREY+CiAgPC9tZXRhZGF0YT4KICA8ZGVmcwogICAgIGlkPSJkZWZzMzg2MSIgLz4KICA8c29kaXBvZGk6bmFtZWR2aWV3CiAgICAgcGFnZWNvbG9yPSIjZmZmZmZmIgogICAgIGJvcmRlcmNvbG9yPSIjNjY2NjY2IgogICAgIGJvcmRlcm9wYWNpdHk9IjEiCiAgICAgb2JqZWN0dG9sZXJhbmNlPSIxMCIKICAgICBncmlkdG9sZXJhbmNlPSIxMCIKICAgICBndWlkZXRvbGVyYW5jZT0iMTAiCiAgICAgaW5rc2NhcGU6cGFnZW9wYWNpdHk9IjAiCiAgICAgaW5rc2NhcGU6cGFnZXNoYWRvdz0iMiIKICAgICBpbmtzY2FwZTp3aW5kb3ctd2lkdGg9IjE5MjAiCiAgICAgaW5rc2NhcGU6d2luZG93LWhlaWdodD0iOTkxIgogICAgIGlkPSJuYW1lZHZpZXczODU5IgogICAgIHNob3dncmlkPSJmYWxzZSIKICAgICBpbmtzY2FwZTp6b29tPSIwLjI5NSIKICAgICBpbmtzY2FwZTpjeD0iMzQ5LjMzMjYzIgogICAgIGlua3NjYXBlOmN5PSIxNDkuMzMyNzEiCiAgICAgaW5rc2NhcGU6d2luZG93LXg9Ii05IgogICAgIGlua3NjYXBlOndpbmRvdy15PSI0NDkiCiAgICAgaW5rc2NhcGU6d2luZG93LW1heGltaXplZD0iMSIKICAgICBpbmtzY2FwZTpjdXJyZW50LWxheWVyPSJzdmczODU3IiAvPgogIDxnCiAgICAgaWQ9IlNWR1JlcG9fYmdDYXJyaWVyIgogICAgIHN0eWxlPSJzdHJva2Utd2lkdGg6MCIKICAgICB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMS41MjAwMjExLC03LjUyMDAxODcpIiAvPgogIDxnCiAgICAgaWQ9IlNWR1JlcG9fdHJhY2VyQ2FycmllciIKICAgICBzdHlsZT0ic3Ryb2tlOiNmZmZmZmY7c3Ryb2tlLXdpZHRoOjAuOTU5OTk5OTg7c3Ryb2tlLWxpbmVjYXA6cm91bmQ7c3Ryb2tlLWxpbmVqb2luOnJvdW5kIgogICAgIHRyYW5zZm9ybT0idHJhbnNsYXRlKC0xLjUyMDAyMTEsLTcuNTIwMDE4NykiPgogICAgPHBhdGgKICAgICAgIGQ9Ik0gNi4xNDIxNCw4LjAwMDAxIDIsMTIgNi4xNDIxNCwxNiA3LjUyMjg1LDE0LjY2NjcgNS43Mzc3MywxMi45NDI4IEggMTguMjYyMyBMIDE2LjQ3NzIsMTQuNjY2NyAxNy44NTc5LDE2IDIyLDEyIDE3Ljg1NzksOCAxNi40NzcyLDkuMzMzMzMgMTguMjYyMywxMS4wNTcyIEggNS43Mzc3NSBsIDEuNzg1MSwtMS43MjM4NSB6IgogICAgICAgaWQ9InBhdGgzODUxIgogICAgICAgaW5rc2NhcGU6Y29ubmVjdG9yLWN1cnZhdHVyZT0iMCIKICAgICAgIHN0eWxlPSJmaWxsOiMxZDliZjAiIC8+CiAgPC9nPgogIDxnCiAgICAgaWQ9IlNWR1JlcG9faWNvbkNhcnJpZXIiCiAgICAgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoLTEuNTIwMDIxMSwtNy41MjAwMTg3KSI+CiAgICA8cGF0aAogICAgICAgZD0iTSA2LjE0MjE0LDguMDAwMDEgMiwxMiA2LjE0MjE0LDE2IDcuNTIyODUsMTQuNjY2NyA1LjczNzczLDEyLjk0MjggSCAxOC4yNjIzIEwgMTYuNDc3MiwxNC42NjY3IDE3Ljg1NzksMTYgMjIsMTIgMTcuODU3OSw4IDE2LjQ3NzIsOS4zMzMzMyAxOC4yNjIzLDExLjA1NzIgSCA1LjczNzc1IGwgMS43ODUxLC0xLjcyMzg1IHoiCiAgICAgICBpZD0icGF0aDM4NTQiCiAgICAgICBpbmtzY2FwZTpjb25uZWN0b3ItY3VydmF0dXJlPSIwIgogICAgICAgc3R5bGU9ImZpbGw6IzFkOWJmMCIgLz4KICA8L2c+Cjwvc3ZnPgo=)';	
+				arrow.style.left = (left + Game.TILE_SIZE / 2 - (width - Game.TILE_SIZE) / 2) + 'px';
+				arrow.style.top = (top + Game.TILE_SIZE / 2 - height / 2) + 'px';
+			}
+			arrow.id = 'hint_arrow';
+			arrow.style.position = 'absolute';
+			arrow.style.backgroundPosition = 'center';
+			arrow.style.backgroundSize = 'contain';
+			arrow.style.backgroundRepeat = 'no-repeat';
+			arrow.style.width = width + 'px';
+			arrow.style.height = height + 'px';
+
+
+			// We make the arrow blink
+			timer1 = setInterval(function() {
+				var blinks = 3, i = 0;	// The arrow blinks 3 times
+				timer2 = setInterval(function() {
+					if (i == blinks * 2) {
+						clearInterval(timer2);
+						return;
+					}
+					// Once every two, we display and remove the arrow
+					if (i % 2 == 0) {
+						grid.appendChild(arrow);
+					}else {
+						remove(arrow);
+					}
+					i++;
+				}, 200);
+			}, 2000);
+
+			/**
+			* Removes the hint animation once the player has clicked on a gem
+			*/
+			Game.removeHint = function(reset) {
+				if (Game.hint.timer) {
+					clearTimeout(Game.hint.timer);
+					delete Game.hint.timer;
+				}
+				if (timer1 != null) {
+					// We stop the blinking
+					clearInterval(timer2);
+					clearInterval(timer1);
+					timer2 = null;
+					timer1 = null;
+					remove(arrow);	// We remove the arrow if it is displayed
+				}
+			};
+		};
+
+		/**
+		* Removes the hint animation once the player has clicked on a gem
+		*/
+		Game.removeHint = function() {
+			if (Game.hint != undefined) {
+				clearTimeout(Game.hint.timer);
+				delete Game.hint.timer;
+			}
+		};
+
+		/**
+		* Pauses the hint timeout, so that it doesn't show up if the user is on another tab from his browser
+		*/
+		Game.pauseHint = function() {
+			var remaningTime = 15000;
+			if (Game.hint != undefined) {
+				remaningTime -= (new Date() - Game.hint.start);	// We calculate the hint's timer remaining time to resume it later
+				clearTimeout(Game.hint.timer);
+				delete Game.hint.timer;
+			}
+
+			/**
+			* Resumes the hint timeout
+			*/
+			Game.resumeHint = function() {
+				if (remaningTime <= 0) {	// If the hint timer was already finished, we look for another hint
+					Game.removeHint();
+					Game.checkGameOver();
+				}else if (Game.hint) {
+					Game.hint.start = new Date();	// We set a new starting moment
+					Game.hint.timer = setTimeout(Game.showHint, remaningTime);	// We start the timer again, for the remaining time
+				}
+			};
+		};
+
+		Game.resumeHint = function() {};
+	</script>
+
+	<!--score.js-->
+	<script>
+		// Score related functions
+
+		/**
+		 * Updates the player's score after a match
+		 * @param {Number}	destroyedGems	The number of gems that were destroyed
+		 */
+		Game.updateScore = function(destroyedGems) {
+			var perGem = 100 + (Game.combo == undefined ? 0 : (50 * Game.combo)),	// Each combo makes the gems worth 50 points more
+				gain = destroyedGems * perGem,
+				gaugeSize = 0,
+				gainSpan = document.createElement('span'),
+				yOrigin = 215,
+				yShift = 5;
+			
+			// For a streak bigger than 3, the player gets a bonus	
+			if (destroyedGems > 3) {
+				for (var i = 0; i < destroyedGems - 3; i++) {
+					gain += 100 * (i+1);
+				};
+			}
+
+			Game.score.current += gain;
+			
+			// If there is already a gain displayed, we sum the gains
+			var existingGain = get('.score_gain');
+			if (existingGain != null) {
+				if (existingGain.length == undefined) {
+					existingGain = [existingGain];
+				}
+				for (var i = 0; i < existingGain.length; i++) {
+					gain += parseInt(existingGain[i].innerHTML.substr(1));
+					get('#player_info').removeChild(existingGain[i]);
+				};
+			}
+
+			// We update the UI
+			gainSpan.className  ='score_gain';
+			gainSpan.innerHTML = '+' + gain;
+			gainSpan.style.top = yOrigin + 'px';
+			get('#player_info').insertBefore(gainSpan, get('#total_score'));
+
+			// The gain animation
+			var gainMove = setInterval(function() {
+				var y = parseInt(gainSpan.style.top.substring(0, gainSpan.style.top.indexOf('px')));
+				if (y >= yOrigin + 35) {
+					clearInterval(gainMove);
+					if (gainSpan.parentNode) {
+						get('#player_info').removeChild(gainSpan);
+					}
+					return;
+				}
+				gainSpan.style.top = (y+yShift) + 'px';
+			}, 60);
+
+			get('#current_score').innerHTML = Game.score.current;
+		};
+
+		/**
+		 * Resets the score between the levels
+		 */
+		Game.resetScore = function() {
+			//Game.score.current = 0;
+			Game.score.goal *= 2.5;
+			Game.score.goal = Math.round(Game.score.goal);
+			//get('#current_score').innerHTML = Game.score.current;
+			get('#goal_score').innerHTML = Game.score.goal;
+		}
+	</script>
+
+	<!--streak.js-->
+	<script>
+		// Gem streaks related functions (combo checking, etc.)
+
+		/**
+		 * Looks for the presence and removes a streak around an gem
+		 * @param {Gem} gem	The gem which neighbours will be checked for a streak
+		 */
+		Game.checkStreak = function(gem) {
+			var gems = get('.gem'),
+				streak = gem.getStreak();	// We look for a streak from the gem
+
+			for (var i = 0; i < gems.length; i++) {
+				gems[i].removeEventListener('click', Game.onGemClick, false);	// We remove the mouse event listeners
+			};
+
+			if (Object.getLength(streak) > 0) {
+				// We calculate the number of combos
+				if (Game.gem == null) {
+					Game.combo = (Game.combo == undefined ? 1 : Game.combo + 1);
+				}
+
+				gem.inStreak = true;
+				Game.removeStreak(streak);
+			}else if (Game.gem != null && Game.gem.id !== gem.id && !Game.gem.inStreak) {	// If there is a selected gem, and it is not in a streak, we will have to reverse the swap
+				Game.swapGems(gem, Game.gem, false);		// We re-swap the gems to their respective original positions
+				Game.deselectGem();
+				
+				for (var i = 0; i < gems.length; i++) {
+					gems[i].addEventListener('click', Game.onGemClick, false);	// We add the mouse event listener
+				};
+			}
+		};
+
+		/**
+		 * Removes all the gems that form a streak (column or row, or both)
+		 * @param {Array} gemsToRemove	An array containing the gems that are in a streak
+		 */
+		Game.removeStreak = function(gemsToRemove) {
+			Game.removeHint();	// We delete the gem hint
+			var totalGems = 0, nbGems = 0, fallAfter = false;
+
+			for (var column in gemsToRemove) {
+				for (var i = 0; i < gemsToRemove[column].length; i++) {
+					totalGems++;
+				};
+			};
+
+			for (var column in gemsToRemove) {
+				for (var i = 0; i < gemsToRemove[column].length; i++) {
+					nbGems++;
+					if (nbGems == totalGems) {
+						fallAfter = true;	// We make the gems fall after the last one was destroyed
+					}
+					gemsToRemove[column][i].destroy(gemsToRemove, fallAfter);
+				};
+			};
+			
+			Game.updateScore(totalGems);
+		};
+
+		/**
+		 * Triggers when a streak is destroyed: starts the generation of new gems
+		 * After that, makes the columns fall one by one
+		 * @param {Array} streak	An array containing the gems that are in a streak
+		 */
+		Game.onStreakRemoved = function(streak) {		// We continue after the streak disappeared
+			var firstYToFall = Game.GRID_SIZE,	// The Y of the first item that will fall
+				newGems = null,
+				currentItem = null,
+				fallHeight = 0,
+				fallStarted = false,
+				skip = false;
+
+			// We run through the gem columns
+			for (var column in streak) {
+				for (var i = Game.GRID_SIZE - 1; i >= 0; i--) {
+					currentItem = get('#tile' + i + '_' + column);
+					if (currentItem != null && currentItem.timer != undefined) {	// If there is an item from another streak that is still animated, we pass this column
+						skip = true;
+						break;
+					}
+				};
+				if (skip) {	// We will parse another column
+					skip = false;
+					continue;
+				}
+
+				firstYToFall = Game.GRID_SIZE;
+				for (i = Game.GRID_SIZE - 1; i >= 0; i--) {	// We run through the column from bottom to top
+					currentItem = get('#tile' + i + '_' + column);
+					if (currentItem == null) {				// Once we found a gem that was destroyed
+						for (var j = i - 1; j >= 0; j--) {	// We run through the gems on top of it
+							currentItem = get('#tile' + j + '_' + column);
+							if (currentItem != null) {		// Once we found a valid gem on top of the destroyed gems
+								firstYToFall = j;			// It is the first that will fall on this column
+								break;
+							}
+						};
+						break;
+					}
+				};
+				if (firstYToFall >= 7) {	// If there is no "hole" in the grid
+					firstYToFall = -1;		// It means there is a hole from the top, the first gem to fall is on top the grid
+				}
+				Game.generateGems(column);	// We generate the new gems
+				get('#tile' + firstYToFall + '_' + column).fallStreak();	// We make the first gem fall (the others will follow)
+			};
+			Game.deselectGem();
+		};
+		var check = true;
+		/**
+		 * Generates random gems above the grid after a streak disappeared
+		 * @param {Array} streak	An array containing the gems that are in a streak
+		 * @return {Array} An array of the new generated gems
+		 */
+		Game.generateGems = function(x) {
+			var quantity = 0, y, value;
+			for (var i = Game.GRID_SIZE - 1; i >= 0; i--) {
+				currentGem = get('#tile' + i + '_' + x);
+				if (currentGem == null) {
+					quantity++;
+
+					value = parseInt(Math.random() * Game.gemRange);
+					if (check) value = 0;
+					y = -1 * quantity;
+					gem = new Game.Gem(parseInt(x), y, value);
+					grid.appendChild(gem);
+				}
+			};
+			check = false
+		};
+	</script>
+
+	<!--bonus.js-->
+	<script>
+		// Bonus related functions
+
+		/**
+		 * Adds a bonus item : the bomb
+		 */
+		Game.winBomb = function() {
+			if (Game.bonus.bomb) {
+				return;
+			}
+			// We randomly place a bomb
+			var bomb = new Game.Bomb(),
+				x = 0,
+				y = 0,
+				itemToReplace;
+
+			Game.bonus.bomb = bomb;
+			do {
+				x = parseInt(Math.random() * Game.GRID_SIZE);
+				y = parseInt(Math.random() * Game.GRID_SIZE);
+			}while (get('#tile' + y + '_' + x) == null || get('#tile' + y + '_' + x).timer != undefined);
+			Game.winBomb(x+1, y+1);
+			bomb.style.left = ((60 * x) + (5 * (x + 1))) + 'px';
+			bomb.style.top = ((60 * y) + (5 * (y + 1))) + 'px';
+			bomb.id = 'tile' + y + '_' + x;
+			itemToReplace = get('#tile' + y + '_' + x);
+			if (itemToReplace != null && itemToReplace.parentNode) {	
+				get('#grid').removeChild(itemToReplace);
+			}
+			get('#grid').appendChild(bomb);
+		};
+	</script>
+
+	<!--gem.js-->
+	<script>
+		/**
+		 * Creates a gem from its coordinates and value
+		 */
+		Game.Gem = function(x, y, value) {
+			if (this == window) {
+				throw new Error('Gem() is a constructor, you can only call it with the keyword "new"');
+			}
+			var left = ((60 * x) + (5 * (x + 1))-1) + 'px',
+				top = ((60 * y) + (5 * (y + 1))-1) + 'px',
+				gem = document.createElement('span');
+
+			gem.className = 'gem item';
+			gem.val = value;
+			gem.id = 'tile' + y + '_' + x;
+			// gem.innerHTML = y+'_'+x;
+			
+			gem.style.top = top;
+			gem.style.left = left;
+
+			switch (value) {
+				case 0:
+					gem.style.backgroundImage = imageArray[0];
+					break;
+				case 1:
+					gem.style.backgroundImage = imageArray[1];
+					break;
+				case 2:
+					gem.style.backgroundImage = imageArray[2];
+					break;
+				case 3:
+					gem.style.backgroundImage = imageArray[3];
+					break;
+				case 4:
+					gem.style.backgroundImage = imageArray[4];
+					break;
+				case 5:
+					gem.style.backgroundImage = imageArray[5];
+					break;
+				case 6:
+					gem.style.backgroundImage = imageArray[6];
+					break;
+				case 7:
+					gem.style.backgroundImage = imageArray[7];
+					break;
+				case 8:
+					gem.style.backgroundImage = imageArray[8];
+					break;
+				case 9:
+					gem.style.backgroundImage = imageArray[9];
+					break;
+			}
+			
+			gem.falling = false;	// Is the element falling ?
+			gem.inStreak = false;
+			gem.isGem = true;
+
+			Game.addGemCapabilities(gem);	// We add useful functions relative to gem objects
+			return gem;
+		};
+
+		Game.addGemCapabilities = function(gem) {
+			addItemCapabilities(gem);	// We add useful functions relative to displayable items
+			
+			/**
+			 * Returns (and sets, if a value is passed as an argument) the gem's y tile value
+			 */
+			gem.value = function(val) {
+				if (val != undefined)
+					gem.val = val;
+				if (gem.className != '')
+					return gem.val;
+				return null;
+			};
+
+			/**
+			 * Makes the gem pop on the grid
+			 */
+			gem.pop = function(grid) {
+				grid.appendChild(gem);
+			};
+
+			/**
+			 * Compares a gem's value with this gem's value
+			 * @param {Gem} target	The gem to compare with the current object
+			 */
+			gem.equals = function(target) {
+				if (target != null && target.isGem && target.value && target.value() == gem.value() && target != gem && !target.falling)	{
+					return true;
+				}
+				return false;
+			};
+
+			/**
+			 * Checks if a given gem is adjacent to the object
+			 * @param {Gem} target	The gem to compare with the current object
+			 */
+			gem.isNeighbour = function(target) {
+				return (((gem.x() === target.x() - 1 || gem.x() === target.x() + 1) && gem.y() === target.y())
+					|| ((gem.y() === target.y() - 1 || gem.y() === target.y() + 1) && gem.x() === target.x()));
+			};
+
+			/**
+			 * Searches for the presence of an gem streak
+			 * @return The streak array with the streaked gems in it
+			 */
+			gem.getStreak = function() {
+				var x = gem.x(),
+					y = gem.y(),
+					row = [],
+					column = [],
+					streak = {};
+
+				row = gem.checkRow(true, true);
+				column = gem.checkColumn(true, true);
+				
+				// If we have a row of three identical gems
+				if (row.length > 1) {
+					for (var i = 0; i < row.length; i++) {
+						streak[row[i].x()] = [];
+						if (streak[row[i].x()].indexOf(row[i]) == -1) {
+							streak[row[i].x()].push(row[i]);
+							row[i].inStreak = true;
+						}
+					};
+				}
+
+				// If we have a column of three identical gems
+				if (column.length > 1) {
+					for (var i = 0; i < column.length; i++) {
+						if (streak[column[i].x()] == undefined) {
+							streak[column[i].x()] = [];
+						}
+						if (streak[column[i].x()].indexOf(column[i]) == -1) {
+							streak[column[i].x()].push(column[i]);
+							column[i].inStreak = true;
+						}
+					};
+				}
+				// If we have a row or a column of three identical gems
+				if ((row.length > 1 || column.length > 1) && (streak[gem.x()] == undefined || streak[gem.x()].indexOf(gem) == -1)) {
+					if (streak[gem.x()] == undefined) {
+						streak[gem.x()] = [];
+					}
+					streak[gem.x()].push(gem);	// We know the moved gem will be removed
+					gem.inStreak = true;
+				}
+				return streak;
+			};
+
+			/**
+			 * Looks through an gem's neighbours in a given direction
+			 * @param vertical	bool	Check vertically or horizontally ?
+			 * @param step	int	(-1 OR 1) Check on one direction or another (left/right, top/bottom)
+			 * @return The streak array with the streaked gems in it
+			 */
+			gem.parseNeighbours = function(vertical, step) {
+				var streak = [],
+					i = 0,
+					x = gem.x(),
+					y = gem.y(),
+					currentGem;
+
+				// We run through the gems in one direction. The step indicates if we go one way or another on the X or Y axis (the axis is defined by the 'vertical' parameter)
+				for (i = ((vertical ? y : x) + step); (step == -1) ? (i > -1) : (i < Game.GRID_SIZE); i += step) {
+					currentGem = vertical ? get('#tile' + i + '_' + x) : get('#tile' + y + '_' + i);	// The current parsed gem
+					// If the current gem is equal to the source gem, we add it to the streak
+					if (streak.indexOf(currentGem) == -1 && gem.equals(currentGem) && currentGem.inStreak == false) {
+						streak = streak.concat(currentGem);
+					}else {
+						break;
+					}
+				};
+				return streak;
+			};
+
+
+
+			/**
+			 * Checks for a streak in the gem's column
+			 * @return An array containing the identical adjacent gems in the column
+			 */
+			gem.checkColumn = function(top, bottom) {
+				if (top !== true && bottom !== true) {
+					return;
+				}
+				
+				var column = [];	
+				// Checking the gems on top (if the gem is at an extremity, don't check behind the border)
+				if (top && gem.y() > 0) {
+					column = column.concat(gem.parseNeighbours(true, -1));
+				}
+				// Checking the gems on bottom (if the gem is at an extremity, don't check behind the border)
+				if (bottom && gem.y() < (Game.GRID_SIZE - 1)) {
+					column = column.concat(gem.parseNeighbours(true, 1));
+				}
+				return column;
+			};
+
+			/**
+			 * Checks for a streak in the gem's row
+			 * @return An array containing the identical adjacent gems in the row
+			 */
+			gem.checkRow = function(left, right) {
+				if (left !== true && right !== true) {
+					return;
+				}
+
+				var row = [];
+				// Checking the gems on the left
+				if (left && gem.x() > 0) {
+					row = row.concat(gem.parseNeighbours(false, -1));
+				}
+				// Checking the gems on the right
+				if (right && gem.x() < (Game.GRID_SIZE - 1)) {
+					row = row.concat(gem.parseNeighbours(false, 1));
+				}
+				return row;
+			};
+
+			/**
+			* Animates the explosion of an gem and removes it
+			* @param streak	An array containing the gems that are in a streak
+			* @param fallAfter	bool: Should the gms fall after this gem's explosion ? (true for the first destroyed gem)
+			*/
+			gem.destroy = function(streak, fallAfter) {
+				var i = 0, loops = 3, timer;
+
+				function animateExplosion () {
+					if (i >= loops) {
+						clearInterval(gem.timer);
+						delete gem.timer;
+						if (gem.parentNode) {
+							gem.parentNode.removeChild(gem);
+						}
+						if (fallAfter === true) {
+							Game.onStreakRemoved(streak);
+						}
+						return;
+					}
+
+					switch (i % 2){
+						case 0:
+							gem.style.backgroundImage = 'url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiCiAgIHZpZXdCb3g9IjAgMCA2Ni42NjY2NjQgNjYuNjY2NjY0IgogICBoZWlnaHQ9IjY2LjY2NjY2NCIKICAgd2lkdGg9IjY2LjY2NjY2NCIKICAgaWQ9InN2ZzM3NjUiCiAgIHZlcnNpb249IjEuMSI+CiAgPG1ldGFkYXRhCiAgICAgaWQ9Im1ldGFkYXRhMzc3MSI+CiAgICA8cmRmOlJERj4KICAgICAgPGNjOldvcmsKICAgICAgICAgcmRmOmFib3V0PSIiPgogICAgICAgIDxkYzpmb3JtYXQ+aW1hZ2Uvc3ZnK3htbDwvZGM6Zm9ybWF0PgogICAgICAgIDxkYzp0eXBlCiAgICAgICAgICAgcmRmOnJlc291cmNlPSJodHRwOi8vcHVybC5vcmcvZGMvZGNtaXR5cGUvU3RpbGxJbWFnZSIgLz4KICAgICAgICA8ZGM6dGl0bGU+PC9kYzp0aXRsZT4KICAgICAgPC9jYzpXb3JrPgogICAgPC9yZGY6UkRGPgogIDwvbWV0YWRhdGE+CiAgPGRlZnMKICAgICBpZD0iZGVmczM3NjkiIC8+CiAgPGltYWdlCiAgICAgeT0iMCIKICAgICB4PSIwIgogICAgIGlkPSJpbWFnZTM3NzMiCiAgICAgeGxpbms6aHJlZj0iZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFESUFBQUF5Q0FZQUFBQWVQNGl4QUFBQmhXbERRMUJKUTBNZ2NISnZabWxzWlFBQUtKRjkKa1QxSXcwQWN4VjlUcFNKVkJ6dUlPR1NvVGhaRXhZOU5xbGdFQzZXdDBLcUR5YVZmMEtRaFNYRnhGRndMRG40c1ZoMWNuSFYxY0JVRQp3UThRVnhjblJSY3A4WDlKb1VXTUI4ZjllSGZ2Y2ZjT0VPcGxwcG9kWTRDcVdVWXlGaFV6MlZVeDhBby9laEhDTEtZbFp1cngxR0lhCm51UHJIajYrM2tWNGx2ZTVQMGVQa2pNWjRCT0o1NWh1V01RYnhGT2JsczU1bnpqRWlwSkNmRTQ4YXRBRmlSKzVMcnY4eHJuZ3NNQXoKUTBZNk9VOGNJaFlMYlN5M01Tc2FLdkVrY1ZoUk5jb1hNaTRybkxjNHErVXFhOTZUdnpDWTAxWlNYS2M1aEJpV0VFY0NJbVJVVVVJWgpGaUswYXFTWVNOSisxTU0vNlBnVDVKTEpWUUlqeHdJcVVDRTVmdkEvK04ydG1aOFlkNU9DVWFEenhiWS9ob0hBTHRDbzJmYjNzVzAzClRnRC9NM0NsdGZ5Vk9qRHpTWHF0cFlXUGdMNXQ0T0s2cGNsN3dPVU9NUENrUzRia1NINmFRajRQdkovUk4yV0IvbHVnZTgzdHJibVAKMHdjZ1RWMHQzd0FIaDhCSWdiTFhQZDdkMWQ3YnYyZWEvZjBBQmNOeTRvdlZRSU1BQUFBR1lrdEhSQUQvQVA4QS82QzlwNU1BQUFBSgpjRWhaY3dBQUN4TUFBQXNUQVFDYW5CZ0FBQUFIZEVsTlJRZm5BdzhTTHlkdzRoRUVBQUFBdDBsRVFWUm8zdTJZVVE2RUlBd0ZXN3pNCjNzZ2V4K093Ti9JeXJ2dHZqTmt0RmhGblBrbG9IT0FKcVFnQUFBQ0lSaFhPT2EvYk1UUFRXNG5zU1VUTGFFMkpTQm1OL3VoZktaWHoKVFo3V2xGL3Y1ZXhWdFhrY1pOS1BaMjV5N1VTQVJHbGR2Zkk0blhuTWtuUUNJb2kwY0xQWENMbzM4TnFpaEVkR1c1WDRWNGF3STRJSQpmNjFPN3hGZXY0UWRrUWU5Zm1zRTN0dE5jZTJJemVNUUlsRlE5K0Y5clVLNTVqcU5IcG5iOUg2UFpDSzc4UUFBQU5BVFgydkRUeTdsCjZwMUlBQUFBQUVsRlRrU3VRbUNDCiIKICAgICBwcmVzZXJ2ZUFzcGVjdFJhdGlvPSJub25lIgogICAgIGhlaWdodD0iNjYuNjY2NjY0IgogICAgIHdpZHRoPSI2Ni42NjY2NjQiIC8+Cjwvc3ZnPgo=)';
+							break;
+						case 1:
+							gem.style.backgroundImage = 'url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjwhLS0gQ3JlYXRlZCB3aXRoIElua3NjYXBlIChodHRwOi8vd3d3Lmlua3NjYXBlLm9yZy8pIC0tPgoKPHN2ZwogICB4bWxuczpkYz0iaHR0cDovL3B1cmwub3JnL2RjL2VsZW1lbnRzLzEuMS8iCiAgIHhtbG5zOmNjPSJodHRwOi8vY3JlYXRpdmVjb21tb25zLm9yZy9ucyMiCiAgIHhtbG5zOnJkZj0iaHR0cDovL3d3dy53My5vcmcvMTk5OS8wMi8yMi1yZGYtc3ludGF4LW5zIyIKICAgeG1sbnM6c3ZnPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIgogICB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIKICAgeG1sbnM6c29kaXBvZGk9Imh0dHA6Ly9zb2RpcG9kaS5zb3VyY2Vmb3JnZS5uZXQvRFREL3NvZGlwb2RpLTAuZHRkIgogICB4bWxuczppbmtzY2FwZT0iaHR0cDovL3d3dy5pbmtzY2FwZS5vcmcvbmFtZXNwYWNlcy9pbmtzY2FwZSIKICAgdmVyc2lvbj0iMS4xIgogICBpZD0ic3ZnMzc3NSIKICAgd2lkdGg9IjY2LjY2NjY2NCIKICAgaGVpZ2h0PSI2Ni42NjY2NjQiCiAgIHZpZXdCb3g9IjAgMCA2Ni42NjY2NjQgNjYuNjY2NjY0IgogICBzb2RpcG9kaTpkb2NuYW1lPSIwX2V4cGxvc2lvbjEuc3ZnIgogICBpbmtzY2FwZTp2ZXJzaW9uPSIwLjkyLjMgKDI0MDU1NDYsIDIwMTgtMDMtMTEpIj4KICA8bWV0YWRhdGEKICAgICBpZD0ibWV0YWRhdGEzNzgxIj4KICAgIDxyZGY6UkRGPgogICAgICA8Y2M6V29yawogICAgICAgICByZGY6YWJvdXQ9IiI+CiAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+CiAgICAgICAgPGRjOnR5cGUKICAgICAgICAgICByZGY6cmVzb3VyY2U9Imh0dHA6Ly9wdXJsLm9yZy9kYy9kY21pdHlwZS9TdGlsbEltYWdlIiAvPgogICAgICAgIDxkYzp0aXRsZT48L2RjOnRpdGxlPgogICAgICA8L2NjOldvcms+CiAgICA8L3JkZjpSREY+CiAgPC9tZXRhZGF0YT4KICA8ZGVmcwogICAgIGlkPSJkZWZzMzc3OSIgLz4KICA8c29kaXBvZGk6bmFtZWR2aWV3CiAgICAgcGFnZWNvbG9yPSIjZmZmZmZmIgogICAgIGJvcmRlcmNvbG9yPSIjNjY2NjY2IgogICAgIGJvcmRlcm9wYWNpdHk9IjEiCiAgICAgb2JqZWN0dG9sZXJhbmNlPSIxMCIKICAgICBncmlkdG9sZXJhbmNlPSIxMCIKICAgICBndWlkZXRvbGVyYW5jZT0iMTAiCiAgICAgaW5rc2NhcGU6cGFnZW9wYWNpdHk9IjAiCiAgICAgaW5rc2NhcGU6cGFnZXNoYWRvdz0iMiIKICAgICBpbmtzY2FwZTp3aW5kb3ctd2lkdGg9IjE5MjAiCiAgICAgaW5rc2NhcGU6d2luZG93LWhlaWdodD0iOTkxIgogICAgIGlkPSJuYW1lZHZpZXczNzc3IgogICAgIHNob3dncmlkPSJmYWxzZSIKICAgICBpbmtzY2FwZTp6b29tPSIzLjU0MDAwMDEiCiAgICAgaW5rc2NhcGU6Y3g9IjMzLjMzMzMzMiIKICAgICBpbmtzY2FwZTpjeT0iMzMuMzMzMzMyIgogICAgIGlua3NjYXBlOndpbmRvdy14PSItOSIKICAgICBpbmtzY2FwZTp3aW5kb3cteT0iNDQ5IgogICAgIGlua3NjYXBlOndpbmRvdy1tYXhpbWl6ZWQ9IjEiCiAgICAgaW5rc2NhcGU6Y3VycmVudC1sYXllcj0ic3ZnMzc3NSIgLz4KICA8aW1hZ2UKICAgICB3aWR0aD0iNjYuNjY2NjY0IgogICAgIGhlaWdodD0iNjYuNjY2NjY0IgogICAgIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiCiAgICAgeGxpbms6aHJlZj0iZGF0YTppbWFnZS9wbmc7YmFzZTY0LGlWQk9SdzBLR2dvQUFBQU5TVWhFVWdBQUFESUFBQUF5Q0FZQUFBQWVQNGl4QUFBQmhXbERRMUJKUTBNZ2NISnZabWxzWlFBQUtKRjkKa1QxSXcwQWN4VjlUcFNKVkJ6dUlPR1NvVGhaRXhZOU5xbGdFQzZXdDBLcUR5YVZmMEtRaFNYRnhGRndMRG40c1ZoMWNuSFYxY0JVRQp3UThRVnhjblJSY3A4WDlKb1VXTUI4ZjllSGZ2Y2ZjT0VPcGxwcG9kWTRDcVdVWXlGaFV6MlZVeDhBby9laEhDTEtZbFp1cngxR0lhCm51UHJIajYrM2tWNGx2ZTVQMGVQa2pNWjRCT0o1NWh1V01RYnhGT2JsczU1bnpqRWlwSkNmRTQ4YXRBRmlSKzVMcnY4eHJuZ3NNQXoKUTBZNk9VOGNJaFlMYlN5M01Tc2FLdkVrY1ZoUk5jb1hNaTRybkxjNHErVXFhOTZUdnpDWTAxWlNYS2M1aEJpV0VFY0NJbVJVVVVJWgpGaUswYXFTWVNOSisxTU0vNlBnVDVKTEpWUUlqeHdJcVVDRTVmdkEvK04ydG1aOFlkNU9DVWFEenhiWS9ob0hBTHRDbzJmYjNzVzAzClRnRC9NM0NsdGZ5Vk9qRHpTWHF0cFlXUGdMNXQ0T0s2cGNsN3dPVU9NUENrUzRia1NINmFRajRQdkovUk4yV0IvbHVnZTgzdHJibVAKMHdjZ1RWMHQzd0FIaDhCSWdiTFhQZDdkMWQ3YnYyZWEvZjBBQmNOeTRvdlZRSU1BQUFBR1lrdEhSQUQvQVA4QS82QzlwNU1BQUFBSgpjRWhaY3dBQUN4TUFBQXNUQVFDYW5CZ0FBQUFIZEVsTlJRZm5BdzhTTVIxaXIvZHBBQUFCZUVsRVFWUm8zdTFhUVU2Rk1CRHRGRXpjCm1MaVNJOGcxdklSTTRnVThSby9oQlV5S2wvQWFlSVR2NmlkdVRMNmxiaFg2b1lVVzJ2NTVTMUxvUE41MCtzckFHSUVRQkJEc3lVSnoKV2JmcTd5WHNtb0lKNk5NZ0luUXA2L1kwTlFTNzVvb0orSW1XaUpSU3U0eEhSRy96YzI4czNuU3hSRDFmMDVjKzNqd2lndXhiNTFTUgpkWHRDeHNEMHZLQ3A1Wm82YStGQ3lHcmd5K3Y3M1cxeE9PeFJWbytxcXA2ZkhqNjlySkc5U0xqTURiR2wwOUkwNHl3VFFBcHEyS2lTCmpTSkVKRG4zbTByVmdpbnZ0TVIyQkNVejRab2hoV3Bsb3c3MzRtSzNoc0UxajRqRWxrN25YUE0wRWFFM3JXTGYvYzM5bXFQMFdTTEQKTTNab1hQT3ZqeFdxS05vUWljaldSTEJyaWxRQ0g4WTZxRnBoUHA2RjJVdit4enBLTGVSTkdiMGFoaGpIYStRUlZQUnFHR0xNMnpUbQpaZVBwekU0YkloSEphckZmamlJeHFHTFRYckJTNUtpcWFpOFN0bk5mVnFObmpoQWl3bEtTcG51RHQ5NW1QZ2JNdHFWZHZOTisrOGlTCmdEejIydW1IQVF0Q20vN0NRU0FFd2kvcVBxNklIQ1JCVHdBQUFBQkpSVTVFcmtKZ2dnPT0KIgogICAgIGlkPSJpbWFnZTM3ODMiCiAgICAgeD0iMCIKICAgICB5PSIwIiAvPgogIDxwYXRoCiAgICAgc3R5bGU9ImZpbGw6I2E4YThhODtmaWxsLW9wYWNpdHk6MTtzdHJva2Utd2lkdGg6MC4yODI0ODU4NyIKICAgICBkPSJtIDQyLjYxMTc3OSwyNy45MDg4MzEgYyAtMi4zNDg4NTcsMC41Mzk4ODggLTIuNDM4MjAyLDQuNjA1NDA4IDAuMTcyMTQsNC43NjI1MzUgMi43OTk4MjgsMC4zMjE1NzkgMy4zOTU5MTgsLTQuNTI3MzkyIDAuNTU1MDYyLC00Ljc2MDUwOSAtMC4yNDE0MzYsMC4wMDU5IC0wLjQ4NzE2NiwtMC4wMjAyOSAtMC43MjcyMDIsLTAuMDAyIHoiCiAgICAgaWQ9InBhdGgzNzg1IgogICAgIGlua3NjYXBlOmNvbm5lY3Rvci1jdXJ2YXR1cmU9IjAiIC8+Cjwvc3ZnPgo=)';
+							break;
+					}
+
+					i++;	
+				};
+
+				gem.timer = setInterval(function() {
+					animateExplosion();
+				}, 100);
+			};
+
+			/**
+			* Checks if a gem can be in a streak by a player's move
+			* @return {Array}	The gems that the player has to swap in order to make a streak
+			*/
+			gem.getPossibleMove = function() {
+				var row = gem.checkRow(true, true),
+					column = gem.checkColumn(true, true),
+					pair = [],
+					x = 0,
+					y = 0,
+					equalGem = null,
+					gemsToSwap = [];
+				y = gem.y();
+				x = gem.x();
+
+				if (row && row.length > 1 || column && column.length > 1) {
+					return [];
+				}
+
+				// The gem has to have one equal neighbour
+				if (row && row.length == 1) {
+					pair = gem.x() < row[0].x() ? [gem, row[0]] : [row[0], gem];
+					y = gem.y();
+
+					// If a move is possible with this row
+					if (pair[0].x() > 0 && gem.equals((equalGem = get('#tile' + (y - 1) + '_' + (pair[0].x() - 1))))	// Checking on left top
+					||	pair[0].x() > 0 && gem.equals((equalGem = get('#tile' + (y + 1) + '_' + (pair[0].x() - 1))))	// Checking on left bottom
+					||	pair[0].x() > 1 && gem.equals((equalGem = get('#tile' + (y) + '_' + (pair[0].x() - 2))))		// Checking on left, two gems further
+					||	pair[1].x() < (Game.GRID_SIZE - 1) && gem.equals((equalGem = get('#tile' + (y - 1) + '_' + (pair[1].x() + 1))))	// Checking on right top
+					||	pair[1].x() < (Game.GRID_SIZE - 1) && gem.equals((equalGem = get('#tile' + (y - 1) + '_' + (pair[1].x() + 1))))	// Checking on right bottom
+					||	pair[1].x() < (Game.GRID_SIZE - 2) && gem.equals((equalGem = get('#tile' + (y) + '_' + (pair[1].x() + 2))))		// Checking on right, two gems further
+					) {
+						gemsToSwap = [equalGem];
+						if (equalGem.x() > pair[1].x()) {
+							gemsToSwap.push(get('#tile' + y + '_' + (pair[1].x() + 1)));
+						}else {
+							gemsToSwap.push(get('#tile' + y + '_' + (pair[0].x() - 1)));
+						}
+						return gemsToSwap;
+					}
+				}else if (column && column.length == 1) {
+					pair = gem.y() < column[0].y() ? [gem, column[0]] : [column[0], gem];
+					x = gem.x();
+
+					// If a move is possible with this column
+					if (pair[0].y() > 0 && gem.equals((equalGem = get('#tile' + (pair[0].y() - 1) + '_' + (x - 1))))	// Checking on top left
+					||	pair[0].y() > 0 && gem.equals((equalGem = get('#tile' + (pair[0].y() - 1) + '_' + (x + 1))))	// Checking on top right
+					||	pair[0].y() > 1 && gem.equals((equalGem = get('#tile' + (pair[0].y() - 2) + '_' + (x))))		// Checking on top, two gems further
+					||	pair[1].y() < (Game.GRID_SIZE - 1) && gem.equals((equalGem = get('#tile' + (pair[1].y() + 1) + '_' + (x - 1))))	// Checking on bottom left
+					||	pair[1].y() < (Game.GRID_SIZE - 1) && gem.equals((equalGem = get('#tile' + (pair[1].y() + 1) + '_' + (x - 1))))	// Checking on bottom right
+					||	pair[1].y() < (Game.GRID_SIZE - 2) && gem.equals((equalGem = get('#tile' + (pair[1].y() + 2) + '_' + (x))))		// Checking on bottom, two gems further
+					) {
+						gemsToSwap = [equalGem];
+						// If the detected gem is below the column, the gem to swap it with will be below too
+						if (equalGem.y() > pair[1].y()) {
+							gemsToSwap.push(get('#tile' + (pair[1].y() + 1) + '_' + x));
+						}else {	// Otherwise, the gem to swap it with will be on top too
+							gemsToSwap.push(get('#tile' + (pair[0].y() - 1) + '_' + x));
+						}
+						return gemsToSwap;
+					}
+				}
+				var equalVGem = null, equalHGem = null;
+				// If there are two equal gems with one space between them, and it is possible to make a streak by placing a surrouding gem between them (horizontally or vertically)
+				if (gem.equals(get('#tile' + y + '_' + (x + 2))) && (gem.equals((equalHGem = get('#tile' + (y + 1) + '_' + (x + 1)))) || gem.equals((equalHGem = get('#tile' + (y - 1) + '_' + (x + 1)))))
+				||	gem.equals(get('#tile' + y + '_' + (x - 2))) && (gem.equals((equalHGem = get('#tile' + (y - 1) + '_' + (x - 1)))) || gem.equals((equalHGem = get('#tile' + (y + 1) + '_' + (x - 1)))))
+				||	gem.equals(get('#tile' + (y + 2) + '_' + x)) && (gem.equals((equalVGem = get('#tile' + (y + 1) + '_' + (x - 1)))) || gem.equals((equalVGem = get('#tile' + (y + 1) + '_' + (x + 1)))))
+				||	gem.equals(get('#tile' + (y - 2) + '_' + x)) && (gem.equals((equalVGem = get('#tile' + (y - 1) + '_' + (x - 1)))) || gem.equals((equalVGem = get('#tile' + (y - 1) + '_' + (x + 1)))))
+				) {
+					equalGem = (equalHGem == null ? equalVGem : equalHGem);
+					x = equalGem.x();
+					y = equalGem.y();
+					return (equalVGem != null) ?
+							[equalGem, get('#tile' + y + '_' + gem.x())]
+							: [equalGem, get('#tile' + gem.y() + '_' + x)];
+				}
+			};
+		};
+	</script>
+
+	<!--bomb.js-->
+	<script>
+		/**
+		 * A bonus item for Ore : the Bomb (destoys all the immediatly surrounding gems)
+		 */
+		Game.Bomb = function() {
+			if (this == window) {
+				throw new Error('Bomb() is a constructor, you can only call it with the keyword "new"');
+			}
+			var bomb = document.createElement('span');
+			Game.addBombCapabilities(bomb);
+
+			bomb.className = 'bomb item';
+			bomb.style.backgroundImage = 'url(data:image/svg+xml;base64,PCFET0NUWVBFIHN2ZyBQVUJMSUMgIi0vL1czQy8vRFREIFNWRyAxLjEvL0VOIiAiaHR0cDovL3d3dy53My5vcmcvR3JhcGhpY3MvU1ZHLzEuMS9EVEQvc3ZnMTEuZHRkIj4KDTwhLS0gVXBsb2FkZWQgdG86IFNWRyBSZXBvLCB3d3cuc3ZncmVwby5jb20sIFRyYW5zZm9ybWVkIGJ5OiBTVkcgUmVwbyBNaXhlciBUb29scyAtLT4KPHN2ZyBmaWxsPSIjMDAwMDAwIiBoZWlnaHQ9IjE3OXB4IiB3aWR0aD0iMTc5cHgiIHZlcnNpb249IjEuMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB2aWV3Qm94PSItMTUuMzYgLTE1LjM2IDU0Mi43MiA1NDIuNzIiIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIiBlbmFibGUtYmFja2dyb3VuZD0ibmV3IDAgMCA1MTIgNTEyIj4KDTxnIGlkPSJTVkdSZXBvX2JnQ2FycmllciIgc3Ryb2tlLXdpZHRoPSIwIi8+Cg08ZyBpZD0iU1ZHUmVwb190cmFjZXJDYXJyaWVyIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZT0iI2ZjZmNmYyIgc3Ryb2tlLXdpZHRoPSIyMC40OCI+IDxnPiA8cGF0aCBkPSJtNDExLjMxMywxMjMuMzEzYzYuMjUtNi4yNSA2LjI1LTE2LjM3NSAwLTIyLjYyNXMtMTYuMzc1LTYuMjUtMjIuNjI1LDBsLTMyLDMyLTkuMzc1LDkuMzc1LTIwLjY4OC0yMC42ODhjLTEyLjQ4NC0xMi41LTMyLjc2Ni0xMi41LTQ1LjI1LDBsLTE2LDE2Yy0xLjI2MSwxLjI2MS0yLjMwNCwyLjY0OC0zLjMxLDQuMDUxLTIxLjczOS04LjU2MS00NS4zMjQtMTMuNDI2LTcwLjA2NS0xMy40MjYtMTA1Ljg2NywwLTE5Miw4Ni4xMzMtMTkyLDE5MnM4Ni4xMzMsMTkyIDE5MiwxOTIgMTkyLTg2LjEzMyAxOTItMTkyYzAtMjQuNzQxLTQuODY0LTQ4LjMyNy0xMy40MjYtNzAuMDY1IDEuNDAyLTEuMDA3IDIuNzktMi4wNDkgNC4wNTEtMy4zMWwxNi0xNmMxMi41LTEyLjQ5MiAxMi41LTMyLjc1OCAwLTQ1LjI1bC0yMC42ODgtMjAuNjg4IDkuMzc1LTkuMzc1IDMyLjAwMS0zMS45OTl6bS0yMTkuMzEzLDEwMC42ODdjLTUyLjkzOCwwLTk2LDQzLjA2My05Niw5NiAwLDguODM2LTcuMTY0LDE2LTE2LDE2cy0xNi03LjE2NC0xNi0xNmMwLTcwLjU3OCA1Ny40MjItMTI4IDEyOC0xMjggOC44MzYsMCAxNiw3LjE2NCAxNiwxNnMtNy4xNjQsMTYtMTYsMTZ6Ii8+IDxwYXRoIGQ9Im00NTkuMDIsMTQ4Ljk4Yy02LjI1LTYuMjUtMTYuMzc1LTYuMjUtMjIuNjI1LDBzLTYuMjUsMTYuMzc1IDAsMjIuNjI1bDE2LDE2YzMuMTI1LDMuMTI1IDcuMjE5LDQuNjg4IDExLjMxMyw0LjY4OCA0LjA5NCwwIDguMTg4LTEuNTYzIDExLjMxMy00LjY4OCA2LjI1LTYuMjUgNi4yNS0xNi4zNzUgMC0yMi42MjVsLTE2LjAwMS0xNnoiLz4gPHBhdGggZD0ibTM0MC4zOTUsNzUuNjA1YzMuMTI1LDMuMTI1IDcuMjE5LDQuNjg4IDExLjMxMyw0LjY4OCA0LjA5NCwwIDguMTg4LTEuNTYzIDExLjMxMy00LjY4OCA2LjI1LTYuMjUgNi4yNS0xNi4zNzUgMC0yMi42MjVsLTE2LTE2Yy02LjI1LTYuMjUtMTYuMzc1LTYuMjUtMjIuNjI1LDBzLTYuMjUsMTYuMzc1IDAsMjIuNjI1bDE1Ljk5OSwxNnoiLz4gPHBhdGggZD0ibTQwMCw2NGM4Ljg0NCwwIDE2LTcuMTY0IDE2LTE2di0zMmMwLTguODM2LTcuMTU2LTE2LTE2LTE2LTguODQ0LDAtMTYsNy4xNjQtMTYsMTZ2MzJjMCw4LjgzNiA3LjE1NiwxNiAxNiwxNnoiLz4gPHBhdGggZD0ibTQ5Niw5Ni41ODZoLTMyYy04Ljg0NCwwLTE2LDcuMTY0LTE2LDE2IDAsOC44MzYgNy4xNTYsMTYgMTYsMTZoMzJjOC44NDQsMCAxNi03LjE2NCAxNi0xNiAwLTguODM2LTcuMTU2LTE2LTE2LTE2eiIvPiA8cGF0aCBkPSJtNDM2Ljk4LDc1LjYwNWMzLjEyNSwzLjEyNSA3LjIxOSw0LjY4OCAxMS4zMTMsNC42ODggNC4wOTQsMCA4LjE4OC0xLjU2MyAxMS4zMTMtNC42ODhsMzItMzJjNi4yNS02LjI1IDYuMjUtMTYuMzc1IDAtMjIuNjI1cy0xNi4zNzUtNi4yNS0yMi42MjUsMGwtMzIsMzJjLTYuMjUxLDYuMjUtNi4yNTEsMTYuMzc1LTAuMDAxLDIyLjYyNXoiLz4gPC9nPiA8L2c+Cg08ZyBpZD0iU1ZHUmVwb19pY29uQ2FycmllciI+IDxnPiA8cGF0aCBkPSJtNDExLjMxMywxMjMuMzEzYzYuMjUtNi4yNSA2LjI1LTE2LjM3NSAwLTIyLjYyNXMtMTYuMzc1LTYuMjUtMjIuNjI1LDBsLTMyLDMyLTkuMzc1LDkuMzc1LTIwLjY4OC0yMC42ODhjLTEyLjQ4NC0xMi41LTMyLjc2Ni0xMi41LTQ1LjI1LDBsLTE2LDE2Yy0xLjI2MSwxLjI2MS0yLjMwNCwyLjY0OC0zLjMxLDQuMDUxLTIxLjczOS04LjU2MS00NS4zMjQtMTMuNDI2LTcwLjA2NS0xMy40MjYtMTA1Ljg2NywwLTE5Miw4Ni4xMzMtMTkyLDE5MnM4Ni4xMzMsMTkyIDE5MiwxOTIgMTkyLTg2LjEzMyAxOTItMTkyYzAtMjQuNzQxLTQuODY0LTQ4LjMyNy0xMy40MjYtNzAuMDY1IDEuNDAyLTEuMDA3IDIuNzktMi4wNDkgNC4wNTEtMy4zMWwxNi0xNmMxMi41LTEyLjQ5MiAxMi41LTMyLjc1OCAwLTQ1LjI1bC0yMC42ODgtMjAuNjg4IDkuMzc1LTkuMzc1IDMyLjAwMS0zMS45OTl6bS0yMTkuMzEzLDEwMC42ODdjLTUyLjkzOCwwLTk2LDQzLjA2My05Niw5NiAwLDguODM2LTcuMTY0LDE2LTE2LDE2cy0xNi03LjE2NC0xNi0xNmMwLTcwLjU3OCA1Ny40MjItMTI4IDEyOC0xMjggOC44MzYsMCAxNiw3LjE2NCAxNiwxNnMtNy4xNjQsMTYtMTYsMTZ6Ii8+IDxwYXRoIGQ9Im00NTkuMDIsMTQ4Ljk4Yy02LjI1LTYuMjUtMTYuMzc1LTYuMjUtMjIuNjI1LDBzLTYuMjUsMTYuMzc1IDAsMjIuNjI1bDE2LDE2YzMuMTI1LDMuMTI1IDcuMjE5LDQuNjg4IDExLjMxMyw0LjY4OCA0LjA5NCwwIDguMTg4LTEuNTYzIDExLjMxMy00LjY4OCA2LjI1LTYuMjUgNi4yNS0xNi4zNzUgMC0yMi42MjVsLTE2LjAwMS0xNnoiLz4gPHBhdGggZD0ibTM0MC4zOTUsNzUuNjA1YzMuMTI1LDMuMTI1IDcuMjE5LDQuNjg4IDExLjMxMyw0LjY4OCA0LjA5NCwwIDguMTg4LTEuNTYzIDExLjMxMy00LjY4OCA2LjI1LTYuMjUgNi4yNS0xNi4zNzUgMC0yMi42MjVsLTE2LTE2Yy02LjI1LTYuMjUtMTYuMzc1LTYuMjUtMjIuNjI1LDBzLTYuMjUsMTYuMzc1IDAsMjIuNjI1bDE1Ljk5OSwxNnoiLz4gPHBhdGggZD0ibTQwMCw2NGM4Ljg0NCwwIDE2LTcuMTY0IDE2LTE2di0zMmMwLTguODM2LTcuMTU2LTE2LTE2LTE2LTguODQ0LDAtMTYsNy4xNjQtMTYsMTZ2MzJjMCw4LjgzNiA3LjE1NiwxNiAxNiwxNnoiLz4gPHBhdGggZD0ibTQ5Niw5Ni41ODZoLTMyYy04Ljg0NCwwLTE2LDcuMTY0LTE2LDE2IDAsOC44MzYgNy4xNTYsMTYgMTYsMTZoMzJjOC44NDQsMCAxNi03LjE2NCAxNi0xNiAwLTguODM2LTcuMTU2LTE2LTE2LTE2eiIvPiA8cGF0aCBkPSJtNDM2Ljk4LDc1LjYwNWMzLjEyNSwzLjEyNSA3LjIxOSw0LjY4OCAxMS4zMTMsNC42ODggNC4wOTQsMCA4LjE4OC0xLjU2MyAxMS4zMTMtNC42ODhsMzItMzJjNi4yNS02LjI1IDYuMjUtMTYuMzc1IDAtMjIuNjI1cy0xNi4zNzUtNi4yNS0yMi42MjUsMGwtMzIsMzJjLTYuMjUxLDYuMjUtNi4yNTEsMTYuMzc1LTAuMDAxLDIyLjYyNXoiLz4gPC9nPiA8L2c+Cg08L3N2Zz4=)';
+			bomb.style.backgroundSize = '55px 55px';
+			bomb.addEventListener('click', bomb.explode, false);
+			bomb.addEventListener('touchstart', bomb.explode, false);
+			bomb.active = false;
+			bomb.isGem = false;
+
+			return bomb;
+		};
+
+		Game.addBombCapabilities = function(bomb) {
+			addItemCapabilities(bomb);
+			/**
+			 * Makes the bomb, and the surrounding gems explode
+			 */
+			bomb.explode = function(event) {
+				if (!bomb.active)
+					return;
+				bomb.active = false;
+				var gemsToRemove = [],
+					x = bomb.x(),
+					y = bomb.y(),
+					item;
+				for (var i = (x > 0 ? x - 1 : x); i <= (x < 7 ? x + 1 : x); i++) {
+					gemsToRemove[i] = [];
+					for (var j = (y > 0 ? y - 1 : y); j <= (y < 7 ? y + 1 : y); j++) {
+						item = get('#tile' + j + '_' + i);
+						if (i == x && j == y || item == null || !item.isGem)
+							continue;
+						gemsToRemove[i].push(item);
+					};
+				};
+				get('#grid').removeChild(bomb);
+				Game.removeStreak(gemsToRemove);
+				delete Game.bonus.bomb;
+			};
+		};
+	</script>
+
+	<!--popup.js-->
+	<script>
+		/**
+		 * Displays a custom popup
+		 * @param {object}	args:
+		 * args = {
+		 *     type: 'text' || 'html',
+		 *     content: 'string'
+		 *     buttons: [{
+		 *         text: 'string',
+		 *         callback: function
+		 *     }],
+		 *     background: CSS
+		 *     style: {
+		 *     	    CSS
+		 *     }
+		 * }
+		 */
+		function Popup (args) {
+			if (args.type == undefined)
+				throw new Error('Missing property "type" in argument object');
+			if (args.content == undefined)
+				throw new Error('Missing property "content" in argument object');
+
+			var that = this;
+
+			// We create the popup container (background)
+			this.container = document.createElement('div');
+			this.container.className = 'popup';
+			this.container.style.position = 'absolute';
+			this.container.style.width = '100%';
+			this.container.style.height = '100%';
+			this.container.style.top = window.pageYOffset + 'px';
+			this.container.style.left = 0;
+			this.container.style.zIndex = '1000';
+			this.container.style.textAlign = 'center';
+			this.container.style.backgroundColor = args.background || 'rgba(255,255,255,0.1)';
+
+			// We create the popup box itself
+			var box = document.createElement('div');
+			box.style.position = 'absolute';
+			box.style.border = '1px solid #666';
+			box.style.background = '#FFFFFF';
+			box.style.width = '400px';
+			box.style.height = '150px';
+			box.style.boxShadow = '2px 2px 5px #333';
+			box.style.margin = 'auto';
+			box.style.paddingTop = '5px';
+			box.style.top = '50%';
+			box.style.left = '50%';
+
+			window.onscroll = function() {
+				that.container.style.top = window.pageYOffset + 'px';
+			}
+
+			// If style properties were passed, we set the popup CSS with them
+			if (args.style != undefined && args.style != null) {
+				box.style = args.style;
+				box.style.border = args.style.border || box.style.border;
+				box.style.background = args.style.background || box.style.background;
+				box.style.width = args.style.width || box.style.width;
+				box.style.height = args.style.height || box.style.height;
+				box.style.paddingTop = args.style.paddingTop || box.style.paddingTop;
+				box.style.top = args.style.top || box.style.top;
+				box.style.left = args.style.left || box.style.left;
+			}
+			// We center the box
+			var width = parseInt(box.style.width.substring(0, box.style.width.length - 2)),
+				height = parseInt(box.style.height.substring(0, box.style.height.length - 2));
+			box.style.margin = '-' + (height / 2) + 'px 0 0 -' + (width / 2) + 'px';
+
+
+			if (args.type === 'text') {
+				var p = document.createElement('p');
+				p.innerText = args.content;
+				box.appendChild(p);
+			}else if (args.type === 'html') {
+				box.innerHTML = args.content;
+			}else {
+				throw new Error('Error: "type" property in argument object should be string ("text" or "html"), ' + args.type + ':' + typeof args.type + ' given instead.');
+			}
+
+			// We create the given buttonss, and associate them with the corresponding callbacks
+			var btContainer = document.createElement('p');
+			for (var i = 0, button, currentBt; i < args.buttons.length; i++) {
+				button = document.createElement('button');
+				button.callback = args.buttons[i].callback;
+				button.innerHTML = args.buttons[i].text;
+				button.style.padding = '4px 12px 4px 12px';
+				button.style.fontSize = '14px';
+				button.style.fontWeight = 'bold';
+				button.style.color = '#555';
+				if (args.buttons[i].id != undefined)
+					button.id = args.buttons[i].id;
+
+				if (typeof button.callback === 'function') {
+					button.onclick = function(event) {
+						that.remove();
+						this.callback(event);
+					}
+				}else if (button.callback === 'remove') {
+					button.onclick = function(event) {
+						that.remove();
+					};
+				}
+				btContainer.appendChild(button);
+			};
+			box.appendChild(btContainer);
+
+			this.container.appendChild(box);
+		}
+
+		/**
+		* Displays the popup
+		*/
+		Popup.prototype.show = function() {
+			document.body.appendChild(this.container);
+		};
+
+		/**
+		* Removes the popup
+		*/
+		Popup.prototype.remove = function() {
+			document.body.removeChild(this.container);
+		};
+
+		/**
+		* A simple alert popup
+		*/
+		Popup.alert = function(text, callback) {
+			// We create a simple popup with a button that removes the popup
+			var popup = new Popup({
+				type: 'html',
+				content: '<h3>' + text + '</h3><br/>',
+				buttons: [
+					{
+						text: 'Ok',
+						callback: callback || 'remove'
+					}
+				]
+			});
+			popup.show();
+		};
+
+		/**
+		* A confirm popup with 'Yes' and 'No' options
+		*/
+		Popup.confirm = function(text, style, trueCallback, falseCallback) {
+			// We create a popup with two buttons
+			var popup = new Popup({
+				type: 'html',
+				content: '<h3>' + text + '</h3><br/>',
+				buttons: [
+					{
+						text: 'Yes',
+						callback: trueCallback || 'remove'
+					},
+					{
+						text: 'No',
+						callback: falseCallback || 'remove'
+					}
+				],
+				style: style || null
+			});
+			popup.show();
+		};
+			</script>
+
+	<!--main.js-->
+	<script>
+		/**
+		 * The game main loop
+		 */
+		Game.mainLoop = setInterval(function() {
+			// We consider the game in pause if there is a popup or if we are on another page
+			if (Game.paused || get('#game_content').style.display === 'none' || get('.popup') != null) {
+				return;
+			}
+			Game.updateTimer();
+
+			var gems = get('.gem');
+			for (var i = 0; i < gems.length; i++) {
+				if (gems[i].timer != undefined) {	// If at least one gem is being animated
+					Game.moving = true;	// The gems are moving, we prevent the player from clicking on the gems
+					return;
+				}
+			};
+
+			// If all the animations are over
+			if (Game.moving) {
+				Game.moving = false;
+				Game.onMoveComplete(gems);
+			}
+		}, 50);
+
+		/**
+		 * Triggers when all the animations of a movement are done
+		 */
+		Game.onMoveComplete = function(gems) {
+			for (var i = 0; i < gems.length; i++) {
+				gems[i].removeEventListener('click', Game.onGemClick, false);	// We remove all the previous listeners, just in case
+				gems[i].addEventListener('click', Game.onGemClick, false);
+			};
+
+			if (Game.combo >= 2 && Game.bonus.bomb == undefined) {	// The player earns a bomb is he makes more than 1 combo
+				Game.winBomb();
+			}
+
+			// We activate the bomb's click
+			if (Game.bonus.bomb != undefined) {
+				Game.bonus.bomb.active = true;
+			}
+
+			if (Game.combo != undefined) {
+				delete Game.combo;
+			}
+
+			// If the goal has been reached, we go to the next level
+			if (Game.score.current >= Game.score.goal) {
+				Game.endLevel();
+				return;
+			}
+
+			// We check if the game is over (and get a hint for the player at the same time)
+			Game.checkGameOver();
+		};
+
+		/**
+		 * Triggers when an gem is clicked (select it or proceed to the swap)
+		 * @param {event} e	The mouse event
+		 */
+		Game.onGemClick = function(e) {
+			var target = e.srcElement || e.target;
+
+			if (Game.gem == null) {
+				Game.selectGem(target);
+			}else {
+				if (target.isNeighbour(Game.gem)) {			// If the clicked gem is adjacent to the first selected gem
+					Game.swapGems(Game.gem, target, true);	// We can swap them
+				}else {							// Otherwise
+					Game.selectGem(target);		// We select the new one
+				}
+			}
+		};
+
+		/**
+		 * Triggers when a touch event starts
+		 * @param {TouchEvent} e    The touch event
+		 */
+		Game.onTouchStart = function(e) {
+			e.preventDefault();
+			var touch = e.touches[0];
+			var target = document.elementFromPoint(touch.clientX, touch.clientY);
+
+			if (target.classList.contains('gem')) {
+				if (Game.gem == null) {
+					Game.selectGem(target);
+				} else {
+					if (target.isNeighbour(Game.gem)) { // If the touched gem is adjacent to the first selected gem
+						Game.swapGems(Game.gem, target, true); // We can swap them
+					} else { // Otherwise
+						Game.selectGem(target); // We select the new one
+					}
+				}
+			}
+		};
+
+		/**
+		 * Triggers when a touch event moves
+		 * @param {TouchEvent} e    The touch event
+		 */
+		Game.onTouchMove = function(e) {
+			e.preventDefault();
+		};
+
+		// add touch event listeners to the game content
+		var gameContent = get('#game_content');
+		gameContent.addEventListener('touchstart', Game.onTouchStart, false);
+		gameContent.addEventListener('touchend', Game.onTouchEnd, false);
+		gameContent.addEventListener('touchmove', Game.onTouchMove, false);
+
+		/**
+		 * Makes a given gem the game's selected gem
+		 * @param {Gem} gem	The gem to select
+		 */
+		Game.selectGem = function(gem) {
+			Game.deselectGem();
+			if (Game.gem == null || gem.id !== Game.gem.id) {
+				gem.style.backgroundImage += ', url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9Im5vIj8+CjxzdmcKICAgeG1sbnM6ZGM9Imh0dHA6Ly9wdXJsLm9yZy9kYy9lbGVtZW50cy8xLjEvIgogICB4bWxuczpjYz0iaHR0cDovL2NyZWF0aXZlY29tbW9ucy5vcmcvbnMjIgogICB4bWxuczpyZGY9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkvMDIvMjItcmRmLXN5bnRheC1ucyMiCiAgIHhtbG5zOnN2Zz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciCiAgIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIKICAgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiCiAgIHZpZXdCb3g9IjAgMCA1MCA1MCIKICAgaGVpZ2h0PSI1MCIKICAgd2lkdGg9IjUwIgogICBpZD0ic3ZnMzc1NSIKICAgdmVyc2lvbj0iMS4xIj4KICA8bWV0YWRhdGEKICAgICBpZD0ibWV0YWRhdGEzNzYxIj4KICAgIDxyZGY6UkRGPgogICAgICA8Y2M6V29yawogICAgICAgICByZGY6YWJvdXQ9IiI+CiAgICAgICAgPGRjOmZvcm1hdD5pbWFnZS9zdmcreG1sPC9kYzpmb3JtYXQ+CiAgICAgICAgPGRjOnR5cGUKICAgICAgICAgICByZGY6cmVzb3VyY2U9Imh0dHA6Ly9wdXJsLm9yZy9kYy9kY21pdHlwZS9TdGlsbEltYWdlIiAvPgogICAgICAgIDxkYzp0aXRsZT48L2RjOnRpdGxlPgogICAgICA8L2NjOldvcms+CiAgICA8L3JkZjpSREY+CiAgPC9tZXRhZGF0YT4KICA8ZGVmcwogICAgIGlkPSJkZWZzMzc1OSIgLz4KICA8aW1hZ2UKICAgICB5PSIwIgogICAgIHg9IjAiCiAgICAgaWQ9ImltYWdlMzc2MyIKICAgICB4bGluazpocmVmPSJkYXRhOmltYWdlL3BuZztiYXNlNjQsaVZCT1J3MEtHZ29BQUFBTlNVaEVVZ0FBQURJQUFBQXlDQVlBQUFBZVA0aXhBQUFBQkhOQ1NWUUlDQWdJZkFoa2lBQUFBSmxKUkVGVQphSUh0MnJFSmdEQVVBRkVqOWs2ZzA3bVZUdWNFT2tGc1l5VUppc2ZuWG1jaDVFaUt3RSthMWlOM0RmWmxUQzMvUFptM3MyazkvZHNMCitVdVlrS0g4K09xNDFLaFpRM2tNdyt5SUlUU0cwQmhDWXdoTm1KQ1VjOU5sRXlmTWpoaENZd2lOSVRTRzBCaENZd2lOSVRTRzBCaEMKWXdqTlVBNUxDSU9lR2c1NnlBeWhNWVRHRUJwRGFHNXZVV3FlR1BuTTZTTmhRaTd6REJ5M1BDR3ZKUUFBQUFCSlJVNUVya0pnZ2c9PQoiCiAgICAgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSIKICAgICBoZWlnaHQ9IjUwIgogICAgIHdpZHRoPSI1MCIgLz4KPC9zdmc+Cg==)';
+				Game.gem = gem;
+			}
+		};
+
+		/**
+		 * Deselects the game's selected gem
+		 */
+		Game.deselectGem = function() {
+			if (Game.gem != null) {
+				switch (Game.gem.value()) {
+				case 0:
+					Game.gem.style.backgroundImage = imageArray[0];
+					break;
+				case 1:
+					Game.gem.style.backgroundImage = imageArray[1];
+					break;
+				case 2:
+					Game.gem.style.backgroundImage = imageArray[2];
+					break;
+				case 3:
+					Game.gem.style.backgroundImage = imageArray[3];
+					break;
+				case 4:
+					Game.gem.style.backgroundImage = imageArray[4];
+					break;
+				case 5:
+					Game.gem.style.backgroundImage = imageArray[5];
+					break;
+				case 6:
+					Game.gem.style.backgroundImage = imageArray[6];
+					break;
+				case 7:
+					Game.gem.style.backgroundImage = imageArray[7];
+					break;
+				case 8:
+					Game.gem.style.backgroundImage = imageArray[8];
+					break;
+				case 9:
+					Game.gem.style.backgroundImage = imageArray[9];
+					break;
+				}
+				Game.gem = null;   
+			}
+		};
+
+		/**
+		* Swaps two gems
+		* @param {Gem} source	The first gem to swap
+		* @param {Gem} dest	The second gem to swap with the first one
+		* @param {bool} check	Shall we look for a streak with the swapped gems ?
+		*/
+		Game.swapGems = function(source, dest, check) {
+			var sourceX = source.x(),
+				sourceY = source.y(),
+				destX = dest.x(),
+				destY = dest.y();
+
+			// We animate the gems to their new positions
+			if (source.left() != dest.left() || source.top() != dest.top()) {
+				var gems = get('.gem');
+				for (var i = 0; i < gems.length; i++) {
+					gems[i].removeEventListener('click', Game.onGemClick, false);	// We prevent the player from clicking on the gems
+				};
+
+				if (source.left() != dest.left()) {
+					source.animate('left', source.left(), dest.left(), 9, check ? Game.checkStreak : null);
+					dest.animate('left', dest.left(), source.left(), 9, check ? Game.checkStreak : null);
+				}else if (source.top() != dest.top()) {
+					source.animate('top', source.top(), dest.top(), 9, check ? Game.checkStreak : null);	
+					dest.animate('top', dest.top(), source.top(), 9, check ? Game.checkStreak : null);
+				}
+				
+				// We swap the x and y properties
+				source.x(destX);
+				source.y(destY);
+				dest.x(sourceX);
+				dest.y(sourceY);
+			}
+		};
+
+		/**
+		* Pauses the game
+		*/
+		Game.pause = function() {
+			if (Game.moving) {
+				return;
+			}
+			var pause, items = get('.item');
+
+			/**
+			* Resumes the game
+			*/
+			Game.resume = function() {
+				for (var i = 0; i < items.length; i++) {
+					items[i].style.visibility = 'visible';
+				};
+				remove(pause);
+				Game.paused = false;
+				Game.checkGameOver();
+			};
+
+			// We create a popup
+			pause = new Popup({
+				type: 'html',
+				content: '<h3>Game Paused</h3><br/>',
+				buttons: [
+					{
+						text: 'Resume',
+						callback: Game.resume
+					}
+				]
+			});
+
+			// We hide all the gems to avoid cheating
+			for (var i = 0; i < items.length; i++) {
+				items[i].style.visibility = 'hidden';
+			};
+			Game.removeHint();
+			pause.show();
+			Game.paused = true;
+		};
+
+		window.onload = Game.init();
+	</script>
+</body>
+</html>
