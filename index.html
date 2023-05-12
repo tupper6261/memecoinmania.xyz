@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mint Tokens</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/web3@1.5.2/dist/web3.min.js"></script>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center h-screen px-4 text-center">
+    <div class="bg-white p-8 rounded shadow">
+        <h1 class="text-4xl font-bold mb-2">Memecoin Mania</h1>
+    </div>
+    <br>
+    <div class="bg-white p-8 rounded shadow">
+        <p class="text-gray-700 mb-8">
+            Memecoin Mania is an open edition NFT featuring 10 different popular memecoins. It can only be purchased with the memecoins in the game. You can spend however many of your token of choice (with a minimum of 2 (so it's basically free + gas if you want it to be)).
+            <br><br>
+            Half of your purchase cost gets burned at time of purchase.
+            <br><br>
+            With the remaining half of the purchase tokens:
+            <br>
+            We'll keep a running total of the USD value of how much of each token has been sent to the contract. Whichever token's total purchasing value is the highest at the end of the sale - all those tokens get burned.
+            <br><br>
+            With the remaining tokens:
+            <br>
+            10% go to charity
+            <br>
+            10% goes to the wallet who spent the most USD value on acquiring Memecoin Mania NFTs.
+            <br>
+            No other specific plans for the remaining 80%
+        </p>
+    </div>
+    <br>
+    <div class="bg-white p-8 rounded shadow">
+        <button id="connectButton" class="bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Connect Wallet</button>
+
+        <div class="mt-4">
+            <label for="tokenSelect" class="block text-gray-700">Select Token:</label>
+            <select id="tokenSelect" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+                <option value="0x8b9c35c79af5319c70dd9a3e3850f368822ed64e">DOGE</option>
+                <option value="0x6982508145454Ce325dDbE47a25d4ec3d2311933">PEPE</option>
+                <option value="0x9bf1d7d63dd7a4ce167cf4866388226eeefa702e">BEN</option>
+                <option value="0x9CBf044bc535db4C93a9F11205A69631d9DCeF26">BILLY</option>
+                <option value="0x244b797d622d4dee8b188b03546acaabd0cf91a0">FOUR</option>
+                <option value="0x1ce270557C1f68Cfb577b856766310Bf8B47FD9C">MONG</option>
+                <option value="0xab306326bC72c2335Bd08F42cbec383691eF8446">PPIZZA</option>
+                <option value="0x25722Cd432d02895d9BE45f5dEB60fc479c8781E">SPONGE</option>
+                <option value="0xa35923162c49cf95e6bf26623385eb431ad920d3">TURBO</option>
+                <option value="0x5026F006B85729a8b14553FAE6af249aD16c9aaB">WOJAK</option>
+            </select>
+        </div>
+
+        <div class="mt-4">
+            <label for="amountInput" class="block text-gray-700">Amount to Spend:</label>
+            <input id="amountInput" type="number" min="2" value="2" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm">
+        </div>
+
+        <button id="mintButton" disabled class="mt-4 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600 transition">Mint Token</button>
+        
+        <p id="status" class="mt-4 text-gray-700"></p>
+    </div>
+
+    <script>
+        const contractAddress = "0xYourContractAddress";
+        const abi = []; // Your contract ABI
+
+        let account;
+        let contract;
+
+        const connectWallet = async () => {
+            if (window.ethereum) { 
+                try {
+                    const address = await window.ethereum.request({ method: 'eth_requestAccounts' });
+                    return {
+                        connectedStatus: true,
+                        status: "",
+                        address: address[0]
+                    };             
+                } catch (error) {
+                    return {
+                        connectedStatus: false,
+                        status: "🦊 Connect to Metamask using the button on the top right."
+                    };
+                }
+            } else {
+                return {
+                    connectedStatus: false,
+                    status: "🦊 You must install Metamask into your browser: https://metamask.io/download.html"
+                };
+            }
+        };
+
+        window.addEventListener('load', async () => {
+            if (window.ethereum) {
+                window.web3 = new Web3(ethereum);
+            } else if (window.web3) {
+                window.web3 = new Web3(web3.currentProvider);
+            } else {
+                console.log('Non-Ethereum browser detected. You should consider trying MetaMask!');
+            }
+
+            document.getElementById('connectButton').addEventListener('click', async () => {
+                const walletConnection = await connectWallet();
+                if (walletConnection.connectedStatus) {
+                    account = walletConnection.address;
+                    contract = new web3.eth.Contract(abi, contractAddress);
+
+                    document.getElementById('mintButton').disabled = false;
+                } else {
+                    alert(walletConnection.status);
+                }
+            });
+
+            document.getElementById('mintButton').addEventListener('click', () => {
+                const tokenAddress = document.getElementById('tokenSelect').value;
+                const amount = document.getElementById('amountInput').value;
+
+                document.getElementById('status').textContent = 'Transaction pending...';
+
+                contract.methods.mintToken(account, tokenAddress, amount).send({ from: account })
+                    .on('confirmation', () => {
+                        document.getElementById('status').textContent = 'Transaction confirmed!';
+                    })
+                    .on('error', () => {
+                        document.getElementById('status').textContent = 'Transaction failed.';
+                    });
+            });
+        });
+    </script>
+</body>
+</html>
